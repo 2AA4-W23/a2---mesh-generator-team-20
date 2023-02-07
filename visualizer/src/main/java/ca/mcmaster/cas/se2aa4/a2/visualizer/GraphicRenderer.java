@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -9,6 +10,7 @@ import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 public class GraphicRenderer {
@@ -27,7 +29,23 @@ public class GraphicRenderer {
             canvas.fill(point);
             canvas.setColor(old);
         }
+        for (int i = 0; i < 675; i++) {
+            //System.out.println("HERE\n\n\n\n\n\n\n\n\n\n");
+            double centre_x = aMesh.getVerticesList().get(i).getX();
+            double centre_y = aMesh.getVerticesList().get(i).getY();
+            double centre2_x = aMesh.getVerticesList().get(i+1).getX();
+            double centre2_y = aMesh.getVerticesList().get(i+1).getY();
+            Color old = canvas.getColor();
+            //canvas.setColor(extractColor(s.getPropertiesList()));
+            Line2D line = new Line2D.Double(centre_x, centre_y, centre2_x, centre2_y);
+            canvas.draw(line);
+            canvas.fill(line);
+            canvas.setColor(old);
+        }
     }
+
+
+
 
     private Color extractColor(List<Property> properties) {
         String val = null;
