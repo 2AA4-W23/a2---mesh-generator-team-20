@@ -1,51 +1,51 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-// mesh adt class with an arraylist of vertices and an arraylist of segments, both are private
 public class MeshADT {
-    private List<PolygonADT> polygons;
+    private final ArrayList<VertexADT> vertices = new ArrayList<>();
+    private final ArrayList<SegmentADT> segments = new ArrayList<>();
+    private final ArrayList<PolygonADT> polygons = new ArrayList<>();
 
-    public MeshADT(List<PolygonADT> polygons) {
-        this.polygons = polygons;
+    public MeshADT() {
     }
 
-    public void toMesh() {
-        HashSet<Structs.Vertex> vertices = new HashSet<>();
-        for (PolygonADT polygon : polygons) {
-            for (VertexADT vertexADT : polygon.getVertices()) {
-                vertices.add(vertexADT.toVertex());
+    public VertexADT getVertex(double x, double y) {
+        for (VertexADT vertex : vertices) {
+            if (vertex.x == x && vertex.y == y) {
+                return vertex;
             }
         }
-        List<Structs.Vertex> vertexList = new ArrayList<>(vertices);
-
-        HashSet<Structs.Segment> segments = new HashSet<>();
-        for (PolygonADT polygon : polygons) {
-            for (SegmentADT segmentADT : polygon.getSegments()) {
-                segments.add(segmentADT.toSegment(
-                        findVertex(vertexList, segmentADT.start),
-                        findVertex(vertexList, segmentADT.end)
-                ));
-            }
-        }
-        List<Structs.Segment> segmentList = new ArrayList<>(segments);
-
-
-
+        VertexADT vertex = new VertexADT(x, y, vertices.size());
+        vertices.add(vertex);
+        return vertex;
     }
 
-    private int findVertex(List<Structs.Vertex> verticesList, VertexADT vertexADT) {
-        for (int i = 0; i < verticesList.size(); i++) {
-            Structs.Vertex vertex = verticesList.get(i);
-            if (vertex.getX() == vertexADT.x && vertex.getY() == vertexADT.y) {
-                return i;
+    public SegmentADT getSegment(VertexADT start, VertexADT end) {
+        for (SegmentADT segment : segments) {
+            if ((segment.start == start && segment.end == end) || (segment.end == start && segment.start == end)) {
+                return segment;
             }
         }
-        throw new RuntimeException("not found");
+        SegmentADT segment = new SegmentADT(
+                start,
+                end,
+                segments.size()
+        );
+        segments.add(segment);
+        return segment;
+    }
+
+    public PolygonADT getPolygon(List<VertexADT> polygonVertices) {
+        ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
+        for (int i = 0; i < polygonVertices.size(); i++) {
+            polygonSegments.add(getSegment(polygonVertices.get(i), polygonVertices.get(i + 1)));
+        }
+        polygonSegments.add(getSegment(polygonVertices.get(polygonVertices.size() - 1), polygonVertices.get(0)));
+
+        PolygonADT polygon = new PolygonADT(polygonSegments, polygons.size());
+        polygons.add(polygon);
+        return polygon;
     }
 }

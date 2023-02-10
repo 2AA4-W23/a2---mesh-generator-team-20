@@ -1,42 +1,37 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
 import java.util.HashSet;
 import java.util.List;
 
-// polygon adt class with an arraylist of vertices, which is private
 public class PolygonADT {
-    private final List<VertexADT> vertices;
     private final List<SegmentADT> segments;
+    final int id;
 
-    public PolygonADT(List<VertexADT> vertices) {
-        this.vertices = vertices;
-        segments = new ArrayList<>(vertices.size());
-
-        for (int i = 1; i < vertices.size(); i++) {
-            segments.add(new SegmentADT(
-                    vertices.get(i - 1),
-                    vertices.get(i),
-                    null
-            ));
+    PolygonADT(List<SegmentADT> segments, int id) {
+        this.segments = segments;
+        for (SegmentADT segment : segments) {
+            segment.polygons.add(this);
         }
-        segments.add(new SegmentADT(
-                vertices.get(vertices.size() - 1),
-                vertices.get(0),
-                null
-        ));
+        this.id = id;
     }
 
-    public SegmentADT getSegment(int startVertexI) {
-        return segments.get(startVertexI);
-    }
+    public Structs.Polygon toPolygon() {
+        Structs.Polygon.Builder builder = Structs.Polygon.newBuilder();
+        HashSet<Integer> neighborIds = new HashSet<>();
+        for (SegmentADT segment : segments) {
+            builder.addSegmentIdxs(segment.id);
 
-    public List<SegmentADT> getSegments() {
-        return Collections.unmodifiableList(segments);
-    }
+            for (PolygonADT neighborPolygon : segment.polygons) {
+                if (neighborPolygon != this) {
+                    neighborIds.add(neighborPolygon.id);
+                }
+            }
+        }
 
-    public List<VertexADT> getVertices() {
-        return Collections.unmodifiableList(vertices);
+        builder.addAllNeighborIdxs(neighborIds);
+
+        return builder.build();
     }
 }
