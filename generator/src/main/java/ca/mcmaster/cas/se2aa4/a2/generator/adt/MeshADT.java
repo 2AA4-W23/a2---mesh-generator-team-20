@@ -9,42 +9,37 @@ import java.util.Set;
 
 // mesh adt class with an arraylist of vertices and an arraylist of segments, both are private
 public class MeshADT {
-    private Set<VertexADT> vertices;
-    private Set<SegmentADT> segments;
+    private List<PolygonADT> polygons;
 
-    public MeshADT() {
-        this.vertices = new HashSet<>();
-        this.segments = new HashSet<>();
+    public MeshADT(List<PolygonADT> polygons) {
+        this.polygons = polygons;
     }
 
-    public void addVertex(VertexADT v) {
-        this.vertices.add(v);
-    }
-
-    public void addSegment(SegmentADT s) {
-        this.segments.add(s);
-    }
-
-    public Structs.Mesh toMesh() {
-        ArrayList<Structs.Vertex> verticesList = new ArrayList<>();
-        for (VertexADT vertex : vertices) {
-            verticesList.add(vertex.toVertex());
+    public void toMesh() {
+        HashSet<Structs.Vertex> vertices = new HashSet<>();
+        for (PolygonADT polygon : polygons) {
+            for (VertexADT vertexADT : polygon.getVertices()) {
+                vertices.add(vertexADT.toVertex());
+            }
         }
+        List<Structs.Vertex> vertexList = new ArrayList<>(vertices);
 
-        ArrayList<Structs.Segment> segmentsList = new ArrayList<>();
-        for (SegmentADT segment : segments) {
-            int startI = findVertexI(verticesList, segment.start);
-            int endI = findVertexI(verticesList, segment.end);
-            segmentsList.add(segment.toSegment(startI, endI));
+        HashSet<Structs.Segment> segments = new HashSet<>();
+        for (PolygonADT polygon : polygons) {
+            for (SegmentADT segmentADT : polygon.getSegments()) {
+                segments.add(segmentADT.toSegment(
+                        findVertex(vertexList, segmentADT.start),
+                        findVertex(vertexList, segmentADT.end)
+                ));
+            }
         }
+        List<Structs.Segment> segmentList = new ArrayList<>(segments);
 
-        return Structs.Mesh.newBuilder()
-                .addAllVertices(verticesList)
-                .addAllSegments(segmentsList)
-                .build();
+
+
     }
 
-    private int findVertexI(List<Structs.Vertex> verticesList, VertexADT vertexADT) {
+    private int findVertex(List<Structs.Vertex> verticesList, VertexADT vertexADT) {
         for (int i = 0; i < verticesList.size(); i++) {
             Structs.Vertex vertex = verticesList.get(i);
             if (vertex.getX() == vertexADT.x && vertex.getY() == vertexADT.y) {
@@ -52,13 +47,5 @@ public class MeshADT {
             }
         }
         throw new RuntimeException("not found");
-    }
-
-    @Override
-    public String toString() {
-        return "MeshADT{" +
-                "vertices=" + vertices +
-                ", segments=" + segments +
-                '}';
     }
 }
