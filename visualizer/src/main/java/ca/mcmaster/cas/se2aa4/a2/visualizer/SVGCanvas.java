@@ -1,12 +1,12 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import java.awt.*;
-import java.io.IOException;
-
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import java.awt.*;
+import java.io.IOException;
 
 public class SVGCanvas {
 

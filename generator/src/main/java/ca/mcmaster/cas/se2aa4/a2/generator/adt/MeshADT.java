@@ -1,6 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MeshADT {
@@ -24,7 +27,7 @@ public class MeshADT {
 
     public SegmentADT getSegment(VertexADT start, VertexADT end) {
         for (SegmentADT segment : segments) {
-            if ((segment.start == start && segment.end == end) || (segment.end == start && segment.start == end)) {
+            if ((segment.getStart() == start && segment.getEnd() == end) || (segment.getEnd() == start && segment.getStart() == end)) {
                 return segment;
             }
         }
@@ -39,13 +42,39 @@ public class MeshADT {
 
     public PolygonADT getPolygon(List<VertexADT> polygonVertices) {
         ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
-        for (int i = 0; i < polygonVertices.size(); i++) {
-            polygonSegments.add(getSegment(polygonVertices.get(i), polygonVertices.get(i + 1)));
+        for (int i = 1; i < polygonVertices.size(); i++) {
+            polygonSegments.add(getSegment(polygonVertices.get(i - 1), polygonVertices.get(i)));
         }
         polygonSegments.add(getSegment(polygonVertices.get(polygonVertices.size() - 1), polygonVertices.get(0)));
 
         PolygonADT polygon = new PolygonADT(polygonSegments, polygons.size());
         polygons.add(polygon);
         return polygon;
+    }
+
+    public List<VertexADT> getVertices() {
+        return Collections.unmodifiableList(vertices);
+    }
+
+    public List<SegmentADT> getSegments() {
+        return Collections.unmodifiableList(segments);
+    }
+
+    public List<PolygonADT> getPolygons() {
+        return Collections.unmodifiableList(polygons);
+    }
+
+    public Structs.Mesh toMesh() {
+        Structs.Mesh.Builder builder = Structs.Mesh.newBuilder();
+        for (VertexADT vertexADT : vertices) {
+            builder.addVertices(vertexADT.toVertex());
+        }
+        for (SegmentADT segmentADT : segments) {
+            builder.addSegments(segmentADT.toSegment());
+        }
+        for (PolygonADT polygonADT : polygons) {
+            builder.addPolygons(polygonADT.toPolygon());
+        }
+        return builder.build();
     }
 }

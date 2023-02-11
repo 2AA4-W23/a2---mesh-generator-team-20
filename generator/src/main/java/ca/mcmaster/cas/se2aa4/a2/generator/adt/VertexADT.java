@@ -26,4 +26,12 @@ public class VertexADT {
         }
         return builder.build();
     }
+
+    @Override
+    public String toString() {
+        return "VertexADT{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
