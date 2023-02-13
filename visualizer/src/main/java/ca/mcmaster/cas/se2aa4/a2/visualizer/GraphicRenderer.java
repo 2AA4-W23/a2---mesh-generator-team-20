@@ -4,6 +4,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -14,6 +16,7 @@ import java.awt.geom.Line2D;
 import java.util.List;
 
 public class GraphicRenderer {
+    private static final Logger logger = LogManager.getLogger(GraphicRenderer.class);
 
     private static final int THICKNESS = 3;
 
@@ -30,7 +33,7 @@ public class GraphicRenderer {
             canvas.fill(point);
         }
         for (Segment segment : mesh.getSegmentsList()) {
-            System.out.println(segment);
+            logger.info(segment);
             Vertex a = vertices.get(segment.getV1Idx());
             Vertex b = vertices.get(segment.getV2Idx());
             canvas.setColor(extractColor(segment.getPropertiesList()));
@@ -43,7 +46,7 @@ public class GraphicRenderer {
         String val = null;
         for (Property p : properties) {
             if (p.getKey().equals("rgb_color")) {
-                // System.out.println(p.getValue());
+                logger.info(p.getValue());
                 val = p.getValue();
             }
         }
