@@ -2,7 +2,7 @@
 
   - Zifan Si [siz@mcmaster.ca]
   - Pega Liu [liu927@mcmaster.ca]
-  - Author #3 [email@mcmaster.ca]
+  - Tianjiao Xiao [xiaot13@mcmaster.ca]
 
 ## How to run the product
 
