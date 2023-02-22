@@ -8,7 +8,7 @@ public class Thickness {
 
     // hold thickness
     public Thickness(int thickness) {
-        this.thickness= thickness;
+        this.thickness = thickness;
     }
 
     public Structs.Property toProperty() {

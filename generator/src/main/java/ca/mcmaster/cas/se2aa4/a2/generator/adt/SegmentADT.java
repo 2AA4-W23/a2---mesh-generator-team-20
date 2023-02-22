@@ -29,7 +29,7 @@ public class SegmentADT {
             builder.addProperties(color.toProperty());
         }
         // tell io, or io will not store in .mesh
-        if (thickness != null){
+        if (thickness != null) {
             builder.addProperties(thickness.toProperty());
         }
         return builder.build();

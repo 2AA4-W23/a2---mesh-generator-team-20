@@ -74,7 +74,7 @@ public class GraphicRenderer {
         if (val == null) {
             return 1;
         }
-        int raw =  Integer.parseInt(val);
+        int raw = Integer.parseInt(val);
         return raw;
     }
 

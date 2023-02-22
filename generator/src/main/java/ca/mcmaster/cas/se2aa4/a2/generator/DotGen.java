@@ -28,10 +28,10 @@ public class DotGen {
                 // build vertex
                 // a b
                 // d c
-                VertexADT a=mesh.getVertex(x, y);
-                VertexADT b=mesh.getVertex(x + squareSize, y);
-                VertexADT c=mesh.getVertex(x + squareSize, y + squareSize);
-                VertexADT d=mesh.getVertex(x, y + squareSize);
+                VertexADT a = mesh.getVertex(x, y);
+                VertexADT b = mesh.getVertex(x + squareSize, y);
+                VertexADT c = mesh.getVertex(x + squareSize, y + squareSize);
+                VertexADT d = mesh.getVertex(x, y + squareSize);
 
                 ArrayList<VertexADT> vertices = new ArrayList<>(4);
                 vertices.add(a);
@@ -40,8 +40,8 @@ public class DotGen {
                 vertices.add(d);
 
                 // Segment: line change thickness
-                SegmentADT segmentAB=mesh.getSegment(a,b);
-                SegmentADT segmentBC=mesh.getSegment(b,c);
+                SegmentADT segmentAB = mesh.getSegment(a, b);
+                SegmentADT segmentBC = mesh.getSegment(b, c);
                 segmentAB.thickness = new Thickness(25);
                 segmentBC.thickness = new Thickness(25);
 
