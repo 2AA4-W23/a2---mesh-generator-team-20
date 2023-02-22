@@ -42,8 +42,8 @@ public class DotGen {
                 // Segment: line change thickness
                 SegmentADT segmentAB = mesh.getSegment(a, b);
                 SegmentADT segmentBC = mesh.getSegment(b, c);
-                segmentAB.thickness = new Thickness(25);
-                segmentBC.thickness = new Thickness(25);
+                segmentAB.thickness = new Thickness(2);
+                segmentBC.thickness = new Thickness(2);
 
                 mesh.getPolygon(vertices);
             }
