@@ -8,6 +8,8 @@ public class SegmentADT {
     private final VertexADT start;
     private final VertexADT end;
     public Color color;
+    // field of thickness
+    public Thickness thickness;
     final ArrayList<PolygonADT> polygons = new ArrayList<>();
     final int id;
 
@@ -25,6 +27,10 @@ public class SegmentADT {
                 .setV2Idx(end.id);
         if (color != null) {
             builder.addProperties(color.toProperty());
+        }
+        // tell io, or io will not store in .mesh
+        if (thickness != null) {
+            builder.addProperties(thickness.toProperty());
         }
         return builder.build();
     }
