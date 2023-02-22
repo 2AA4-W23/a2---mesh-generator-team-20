@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import java.util.ArrayList;
 
 public class SegmentADT {
+    private final MeshADT mesh;
     private final VertexADT start;
     private final VertexADT end;
     public Color color;
@@ -13,7 +14,8 @@ public class SegmentADT {
     final ArrayList<PolygonADT> polygons = new ArrayList<>();
     final int id;
 
-    SegmentADT(VertexADT start, VertexADT end, int id) {
+    SegmentADT(MeshADT mesh, VertexADT start, VertexADT end, int id) {
+        this.mesh = mesh;
         this.start = start;
         start.segments.add(this);
         this.end = end;
