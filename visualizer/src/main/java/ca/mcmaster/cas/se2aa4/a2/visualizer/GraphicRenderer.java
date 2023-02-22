@@ -13,6 +13,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.List;
 
+
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
@@ -34,6 +35,9 @@ public class GraphicRenderer {
             Vertex a = vertices.get(segment.getV1Idx());
             Vertex b = vertices.get(segment.getV2Idx());
             canvas.setColor(extractColor(segment.getPropertiesList()));
+            // thickness
+            stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
+            canvas.setStroke(stroke);
             Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
             canvas.draw(line);
         }
@@ -54,6 +58,24 @@ public class GraphicRenderer {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
+    }
+
+    // extract thickness
+    //prop [color: [red,blue,yellow]
+    //     [Thickness: [int]]
+    private int extractThickness(List<Property> properties) {
+        String val = null;
+        for (Property p : properties) {
+            if (p.getKey().equals("thickness")) {
+                // System.out.println(p.getValue());
+                val = p.getValue();
+            }
+        }
+        if (val == null) {
+            return 1;
+        }
+        int raw =  Integer.parseInt(val);
+        return raw;
     }
 
 }

@@ -65,6 +65,7 @@ When you develop features and enrich the product, remember that you have first t
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+|    |     step#2 uml          |   Zifan Si   |  2/15     |  2/19   |   D     |
+|    |     step#2 uml          |   Zifan Si   |  2/15     |  2/19   |   D     |
 
 
