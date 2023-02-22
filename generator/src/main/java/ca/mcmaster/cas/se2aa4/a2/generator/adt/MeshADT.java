@@ -20,7 +20,7 @@ public class MeshADT {
                 return vertex;
             }
         }
-        VertexADT vertex = new VertexADT(x, y, vertices.size());
+        VertexADT vertex = new VertexADT(this, x, y, vertices.size());
         vertices.add(vertex);
         return vertex;
     }
@@ -32,7 +32,7 @@ public class MeshADT {
             }
         }
         SegmentADT segment = new SegmentADT(
-                start,
+                this, start,
                 end,
                 segments.size()
         );
@@ -47,7 +47,7 @@ public class MeshADT {
         }
         polygonSegments.add(getSegment(polygonVertices.get(polygonVertices.size() - 1), polygonVertices.get(0)));
 
-        PolygonADT polygon = new PolygonADT(polygonSegments, polygons.size());
+        PolygonADT polygon = new PolygonADT(this, polygonSegments, polygonVertices, polygons.size());
         polygons.add(polygon);
         return polygon;
     }
@@ -66,6 +66,9 @@ public class MeshADT {
 
     public Structs.Mesh toMesh() {
         Structs.Mesh.Builder builder = Structs.Mesh.newBuilder();
+        for (PolygonADT polygonADT : polygons) {
+            polygonADT.getCentroid();
+        }
         for (VertexADT vertexADT : vertices) {
             builder.addVertices(vertexADT.toVertex());
         }

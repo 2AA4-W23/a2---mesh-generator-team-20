@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
   - Zifan Si [siz@mcmaster.ca]
-  - Author #2 [email@mcmaster.ca]
+  - Pega Liu [liu927@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
@@ -65,6 +65,7 @@ When you develop features and enrich the product, remember that you have first t
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+|    |     step#2 uml          |   Zifan Si   |  2/15     |  2/19   |   D     |
+|    |     step#2 uml          |   Zifan Si   |  2/15     |  2/19   |   D     |
 
 

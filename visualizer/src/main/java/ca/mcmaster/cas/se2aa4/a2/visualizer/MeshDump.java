@@ -24,9 +24,9 @@ public class MeshDump {
         logger.info("|Vertices| = " + vertices.size());
         for (Vertex v : vertices){
             StringBuffer line = new StringBuffer();
-            line.append(String.format("(%.2f,%.2f)",v.getX(), v.getY()));
+            line.append(String.format("(%.2f,%.2f)", v.getX(), v.getY()));
             line.append(" [");
-            for(Property p: v.getPropertiesList()){
+            for (Property p : v.getPropertiesList()) {
                 line.append(String.format("%s -> %s, ", p.getKey(), p.getValue()));
             }
             line.append("]");

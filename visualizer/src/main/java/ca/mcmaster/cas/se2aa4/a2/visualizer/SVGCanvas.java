@@ -20,7 +20,7 @@ public class SVGCanvas {
     }
 
     public static void write(Graphics2D g, String fileName) throws IOException {
-        if (! (g instanceof SVGGraphics2D))
+        if (!(g instanceof SVGGraphics2D))
             throw new IllegalArgumentException("Not an SVG canvas!");
         SVGGraphics2D svg = (SVGGraphics2D) g;
         svg.stream(fileName, true);
