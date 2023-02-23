@@ -2,20 +2,15 @@ package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-import java.util.ArrayList;
-
 public class SegmentADT {
-    private final MeshADT mesh;
     private final VertexADT start;
     private final VertexADT end;
     public Color color;
     // field of thickness
     public Thickness thickness;
-    final ArrayList<PolygonADT> polygons = new ArrayList<>();
     final int id;
 
-    SegmentADT(MeshADT mesh, VertexADT start, VertexADT end, int id) {
-        this.mesh = mesh;
+    SegmentADT(VertexADT start, VertexADT end, int id) {
         this.start = start;
         start.segments.add(this);
         this.end = end;
