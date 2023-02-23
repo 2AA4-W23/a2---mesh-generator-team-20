@@ -20,6 +20,9 @@ public class PolygonADT {
         }
         this.id = id;
     }
+    public List<VertexADT> getVertices(){
+        return this.vertices;
+    }
 
     // method to calculate centroid of the polygon
     VertexADT getCentroid() {

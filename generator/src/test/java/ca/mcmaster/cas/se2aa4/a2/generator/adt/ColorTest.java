@@ -1,6 +1,5 @@
-package ca.mcmaster.cas.se2aa4.a2.generator;
+package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
