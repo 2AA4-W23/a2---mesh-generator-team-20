@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        DotGen generator = new VoronoiDotGen(500, 500, 5);
+        DotGen generator = new VoronoiDotGen(500, 500, 100);
         Mesh myMesh = generator.generateMesh();
         MeshFactory factory = new MeshFactory();
         factory.write(myMesh, args[0]);

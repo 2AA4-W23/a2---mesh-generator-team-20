@@ -1,10 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryCollection;
-import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
 import java.util.ArrayList;
@@ -43,19 +40,30 @@ public class MeshADT {
 
     public PolygonADT getPolygon(List<VertexADT> polygonVertices) {
         ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
+        Coordinate[] coordinates = new Coordinate[polygonVertices.size()];
+        for (int i = 0; i < polygonVertices.size(); i++) {
+            coordinates[i] = new Coordinate(polygonVertices.get(i).x, polygonVertices.get(i).y);
+        }
+        Polygon jtsPolygon = new GeometryFactory().createPolygon(coordinates);
+        Coordinate[] convexCoordinates = jtsPolygon.convexHull().getCoordinates();
+        polygonVertices = new ArrayList<>(polygonVertices.size());
+        for (Coordinate coordinate : convexCoordinates) {
+            polygonVertices.add(getVertex(coordinate.x, coordinate.y));
+        }
+
         for (int i = 1; i < polygonVertices.size(); i++) {
             polygonSegments.add(getSegment(polygonVertices.get(i - 1), polygonVertices.get(i)));
         }
         polygonSegments.add(getSegment(polygonVertices.get(polygonVertices.size() - 1), polygonVertices.get(0)));
 
-        PolygonADT polygon = new PolygonADT(this,polygonSegments, polygonVertices, polygons.size());
+        PolygonADT polygon = new PolygonADT(this, polygonSegments, polygonVertices, polygons.size());
         polygons.add(polygon);
         return polygon;
     }
 
     public PolygonADT findPolygonByCentroid(double x, double y) {
         for (PolygonADT polygon : polygons) {
-            if (Math.abs(polygon.centroid.x- x)<0.1 && Math.abs(polygon.centroid.y- y)<0.1) {
+            if (polygon.centroid.x == x && polygon.centroid.y == y) {
                 return polygon;
             }
         }
