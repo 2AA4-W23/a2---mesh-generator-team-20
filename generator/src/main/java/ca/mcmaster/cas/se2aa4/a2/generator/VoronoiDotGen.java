@@ -14,12 +14,13 @@ public class VoronoiDotGen implements DotGen {
     private final int height;
     private final int sitesCount;
 
-    private final int relaxations = 10;
+    private final int relaxations;
 
-    public VoronoiDotGen(int width, int height, int sitesCount) {
+    public VoronoiDotGen(int width, int height, int sitesCount, int relaxations) {
         this.width = width;
         this.height = height;
         this.sitesCount = sitesCount;
+        this.relaxations = relaxations;
     }
 
     @Override
