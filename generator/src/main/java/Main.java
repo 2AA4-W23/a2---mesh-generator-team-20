@@ -17,7 +17,7 @@ public class Main {
         PrintWriter pw = new PrintWriter(System.out);
         pw.println("MeshCreator"+Math.class.getPackage().getImplementationVersion());
         pw.println();
-        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options]\"");
+        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize\"");
         formatter.printOptions(pw, 100, options, 2,5);
         pw.close();
     }
@@ -38,13 +38,26 @@ public class Main {
                 System.exit(-1);
             }
 
+            int width = 0;
+            int height = 0;
+            int squareSize = 0;
+            try{
+                width = Integer.parseInt(cmd.getArgList().get(1));
+                height = Integer.parseInt(cmd.getArgList().get(2));
+                squareSize = Integer.parseInt(cmd.getArgList().get(3));
+            }catch (Exception q){
+                printHelp(options);
+                q.printStackTrace();
+                System.exit(-1);
+            }
+
             if(cmd.hasOption("-g")){
-                DotGen generator = new SquareDotGen(500, 500, 100);
+                DotGen generator = new SquareDotGen(width, height, squareSize);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
             } else if (cmd.hasOption("-i")) {
-                DotGen generator = new VoronoiDotGen(500, 500, 100);
+                DotGen generator = new VoronoiDotGen(width, height, squareSize);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
