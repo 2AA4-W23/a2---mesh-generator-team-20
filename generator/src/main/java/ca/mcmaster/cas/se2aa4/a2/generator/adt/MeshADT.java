@@ -40,14 +40,16 @@ public class MeshADT {
 
     public PolygonADT getPolygon(List<VertexADT> polygonVertices) {
         ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
-        Coordinate[] coordinates = new Coordinate[polygonVertices.size()];
+        Coordinate[] coordinates = new Coordinate[polygonVertices.size() + 1];
         for (int i = 0; i < polygonVertices.size(); i++) {
             coordinates[i] = new Coordinate(polygonVertices.get(i).x, polygonVertices.get(i).y);
         }
+        coordinates[coordinates.length - 1] = coordinates[0];
         Polygon jtsPolygon = new GeometryFactory().createPolygon(coordinates);
         Coordinate[] convexCoordinates = jtsPolygon.convexHull().getCoordinates();
         polygonVertices = new ArrayList<>(polygonVertices.size());
-        for (Coordinate coordinate : convexCoordinates) {
+        for (int i = 0; i < convexCoordinates.length - 1; i++) {
+            Coordinate coordinate = convexCoordinates[i];
             polygonVertices.add(getVertex(coordinate.x, coordinate.y));
         }
 

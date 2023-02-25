@@ -64,7 +64,9 @@ public class VoronoiDotGen implements DotGen {
         for (int i = 0; i < diagram.getNumGeometries(); i++) {
             Polygon polygon = (Polygon) diagram.getGeometryN(i);
             ArrayList<VertexADT> vertices = new ArrayList<>();
-            for (Coordinate coordinate : polygon.getCoordinates()) {
+            Coordinate[] polygonCoordinates = polygon.getCoordinates();
+            for (int j = 0; j < polygonCoordinates.length-1; j++) {
+                Coordinate coordinate = polygonCoordinates[j];
                 vertices.add(mesh.getVertex(coordinate.x, coordinate.y));
             }
             System.out.println(vertices);
