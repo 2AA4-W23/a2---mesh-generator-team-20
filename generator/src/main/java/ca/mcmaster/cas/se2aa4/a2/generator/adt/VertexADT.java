@@ -5,15 +5,13 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import java.util.ArrayList;
 
 public class VertexADT {
-    private final MeshADT mesh;
     public double x;
     public double y;
     public Color color;
     final ArrayList<SegmentADT> segments = new ArrayList<>();
     final int id;
 
-    VertexADT(MeshADT mesh, double x, double y, int id) {
-        this.mesh = mesh;
+    VertexADT(double x, double y, int id) {
         this.x = x;
         this.y = y;
         this.id = id;

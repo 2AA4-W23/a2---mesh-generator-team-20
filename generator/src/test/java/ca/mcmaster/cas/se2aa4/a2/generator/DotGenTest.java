@@ -10,8 +10,8 @@ public class DotGenTest {
 
     @Test
     public void meshIsNotNull() {
-        DotGen generator = new DotGen(500, 500);
-        Structs.Mesh aMesh = generator.generateSquareMesh(20);
+        DotGen generator = new SquareDotGen(500, 500, 20);
+        Structs.Mesh aMesh = generator.generateMesh();
         assertNotNull(aMesh);
     }
 
