@@ -46,9 +46,11 @@ public class Main {
                 width = Integer.parseInt(cmd.getArgList().get(1));
                 height = Integer.parseInt(cmd.getArgList().get(2));
                 squareSize = Integer.parseInt(cmd.getArgList().get(3));
-                relaxation = Integer.parseInt(cmd.getArgList().get(4));
-                if(relaxation < 1){
-                    throw new IllegalArgumentException("Relaxation must > 0");
+                if (cmd.hasOption("-i")){
+                    relaxation = Integer.parseInt(cmd.getArgList().get(4));
+                    if(relaxation < 1){
+                        throw new IllegalArgumentException("Relaxation must > 0");
+                    }
                 }
             }catch (Exception q){
                 printHelp(options);
