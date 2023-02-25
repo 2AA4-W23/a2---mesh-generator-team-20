@@ -10,14 +10,14 @@ import java.io.PrintWriter;
 
 public class Main {
     private static final Option GRID = new Option("g", "grid",false, "create a grid mesh");
-    private static final Option IRREGULAR = new Option("g", "grid",false, "create an irregular mesh");
+    private static final Option IRREGULAR = new Option("i", "irregular",false, "create an irregular mesh");
 
     private static void printHelp(Options options){
         HelpFormatter formatter = new HelpFormatter();
         PrintWriter pw = new PrintWriter(System.out);
         pw.println("MeshCreator"+Math.class.getPackage().getImplementationVersion());
         pw.println();
-        formatter.printUsage(pw, 100, "java -jar MeshCreator.jar [options]");
+        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options]\"");
         formatter.printOptions(pw, 100, options, 2,5);
         pw.close();
     }
@@ -32,33 +32,30 @@ public class Main {
         try{
             CommandLine cmd = parser.parse(options, args);
 
-            if(cmd.getArgList().size() < 2){
+            System.out.println(cmd.getArgList());
+            if(cmd.getArgList().size() < 1){
                 printHelp(options);
                 System.exit(-1);
             }
 
-
-            if(cmd.hasOption(GRID.getLongOpt())){
+            if(cmd.hasOption("-g")){
                 DotGen generator = new SquareDotGen(500, 500, 100);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
-            } else if (cmd.hasOption(IRREGULAR.getLongOpt())) {
+            } else if (cmd.hasOption("-i")) {
                 DotGen generator = new VoronoiDotGen(500, 500, 100);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
             } else {
+                System.out.println("c");
                 printHelp(options);
             }
-        } catch(Exception e){
+        } catch(ParseException e){
             e.printStackTrace();
         }
 
-//        DotGen generator = new VoronoiDotGen(500, 500, 100);
-//        Mesh myMesh = generator.generateMesh();
-//        MeshFactory factory = new MeshFactory();
-//        factory.write(myMesh, args[0]);
     }
 
 }
