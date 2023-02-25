@@ -56,9 +56,7 @@ public class MeshADT {
         return Collections.unmodifiableList(vertices);
     }
 
-    public List<SegmentADT> getSegments() {
-        return Collections.unmodifiableList(segments);
-    }
+    public List<SegmentADT> getSegments() { return Collections.unmodifiableList(segments); }
 
     public List<PolygonADT> getPolygons() {
         return Collections.unmodifiableList(polygons);
