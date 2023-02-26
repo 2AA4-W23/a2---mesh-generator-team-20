@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.generator.DotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.SquareDotGen;
+import ca.mcmaster.cas.se2aa4.a2.generator.TriangleDotGen;
 import ca.mcmaster.cas.se2aa4.a2.generator.VoronoiDotGen;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
@@ -11,21 +12,23 @@ import java.io.PrintWriter;
 public class Main {
     private static final Option GRID = new Option("g", "grid",false, "create a grid mesh");
     private static final Option IRREGULAR = new Option("i", "irregular",false, "create an irregular mesh");
+    private static final Option TRIANGLE = new Option("t", "triangle",false, "create an triangle mesh");
 
     private static void printHelp(Options options){
         HelpFormatter formatter = new HelpFormatter();
         PrintWriter pw = new PrintWriter(System.out);
         pw.println("MeshCreator"+Math.class.getPackage().getImplementationVersion());
         pw.println();
-        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize relaxation(>=0)\"");
+        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize relaxation\"");
         formatter.printOptions(pw, 100, options, 2,5);
         pw.close();
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
         Options options = new Options();
         options.addOption(GRID);
         options.addOption(IRREGULAR);
+        options.addOption(TRIANGLE);
 
         CommandLineParser parser = new DefaultParser();
 
@@ -65,6 +68,11 @@ public class Main {
                 factory.write(myMesh, args[0]);
             } else if (cmd.hasOption("-i")) {
                 DotGen generator = new VoronoiDotGen(width, height, squareSize,relaxation);
+                Mesh myMesh = generator.generateMesh();
+                MeshFactory factory = new MeshFactory();
+                factory.write(myMesh, args[0]);
+            } else if (cmd.hasOption("-t")) {
+                DotGen generator = new TriangleDotGen(width, height, squareSize);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
