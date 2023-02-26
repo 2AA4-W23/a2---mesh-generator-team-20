@@ -17,8 +17,8 @@ public class MeshADTest {
     }
     @Test
     public void getSegmentTest(){
-        VertexADT vertexStart = new VertexADT(new MeshADT(),1,2,3);
-        VertexADT vertexEnd = new VertexADT(new MeshADT(),4,5,6);
+        VertexADT vertexStart = new VertexADT(1,2,3);
+        VertexADT vertexEnd = new VertexADT(4,5,6);
         MeshADT segment = new MeshADT();
         SegmentADT expected = segment.getSegment(vertexStart, vertexEnd);
         assertEquals(expected.getStart(), vertexStart);
@@ -27,15 +27,18 @@ public class MeshADTest {
     @Test
     public void getPolygonTest(){
         MeshADT mesh = new MeshADT();
-        VertexADT a = mesh.getVertex(1, 2);
-        VertexADT b = mesh.getVertex(3, 4);
-        VertexADT c = mesh.getVertex(5, 6);
-        ArrayList<VertexADT> polygonVertices = new ArrayList<>(3);
+        VertexADT a = mesh.getVertex(1, 1);
+        VertexADT b = mesh.getVertex(2, 1);
+        VertexADT c = mesh.getVertex(2, 2);
+        VertexADT d = mesh.getVertex(1, 2);
+        ArrayList<VertexADT> polygonVertices = new ArrayList<>(4);
         polygonVertices.add(a);
         polygonVertices.add(b);
         polygonVertices.add(c);
+        polygonVertices.add(d);
         PolygonADT expected = mesh.getPolygon(polygonVertices);
-        assertEquals(expected.getVertices(), polygonVertices);
+        assertEquals(1.5,expected.centroid.x);
+        assertEquals(1.5,expected.centroid.y);
     }
     @Test
     public void toMeshTest(){

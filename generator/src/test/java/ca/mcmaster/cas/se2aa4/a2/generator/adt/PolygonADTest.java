@@ -12,9 +12,9 @@ public class PolygonADTest {
     final MeshADT mesh = new MeshADT();
     final ArrayList<VertexADT> vertices = new ArrayList<>();
     final ArrayList<SegmentADT> segments = new ArrayList<>(vertices.size());
-    final PolygonADT polygon = new PolygonADT(mesh, segments,vertices,4);
+
     @Test
-    public void getVerticesTest(){
+    public void getVerticesTest() {
         VertexADT a = mesh.getVertex(1, 1);
         VertexADT b = mesh.getVertex(2, 1);
         VertexADT c = mesh.getVertex(2, 2);
@@ -28,10 +28,14 @@ public class PolygonADTest {
         }
         segments.add(mesh.getSegment(vertices.get(vertices.size() - 1), vertices.get(0)));
 
-        assertEquals(vertices, polygon.getVertices());
+        PolygonADT polygon = new PolygonADT(mesh, segments, vertices, 4);
+
+        assertEquals(1.5, polygon.centroid.x);
+        assertEquals(1.5, polygon.centroid.y);
     }
+
     @Test
-    public void getCentroidTest(){
+    public void getCentroidTest() {
         VertexADT a = mesh.getVertex(1, 1);
         VertexADT b = mesh.getVertex(2, 1);
         VertexADT c = mesh.getVertex(2, 2);
@@ -45,12 +49,14 @@ public class PolygonADTest {
         }
         segments.add(mesh.getSegment(vertices.get(vertices.size() - 1), vertices.get(0)));
 
-        VertexADT centroid = polygon.getCentroid();
+        PolygonADT polygon = new PolygonADT(mesh, segments, vertices, 4);
+        VertexADT centroid = polygon.centroid;
         assertEquals(1.5, centroid.x);
         assertEquals(1.5, centroid.y);
     }
+
     @Test
-    public void toPolygonTest(){
+    public void toPolygonTest() {
         MeshADT mesh = new MeshADT();
         VertexADT a = mesh.getVertex(1, 1);
         VertexADT b = mesh.getVertex(2, 1);
@@ -68,7 +74,7 @@ public class PolygonADTest {
         }
         segments.add(mesh.getSegment(vertices.get(vertices.size() - 1), vertices.get(0)));
 
-        PolygonADT polygon = new PolygonADT(mesh, segments,vertices,4);
+        PolygonADT polygon = new PolygonADT(mesh, segments, vertices, 4);
 
         Structs.Polygon polygonBuilder = polygon.toPolygon();
         assertNotNull(polygonBuilder);

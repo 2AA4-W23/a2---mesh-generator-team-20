@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VertexADTest {
-    MeshADT mesh = new MeshADT();
-    VertexADT vertex = new VertexADT(mesh, 1, 1, 4);
+    VertexADT vertex = new VertexADT(1, 1, 4);
     @Test
     public void toVertexTest(){
         assertNotNull(vertex.toVertex());

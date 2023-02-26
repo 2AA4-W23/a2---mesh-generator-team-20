@@ -9,7 +9,7 @@ public class SegmentADTest {
     MeshADT mesh = new MeshADT();
     VertexADT a = mesh.getVertex(1, 1);
     VertexADT b = mesh.getVertex(2, 1);
-    SegmentADT segment = new SegmentADT(mesh, a, b, 4);
+    SegmentADT segment = new SegmentADT(a, b, 4);
     Structs.Segment segmentBuilder = segment.toSegment();
     @Test
     public void toSegmentTest(){

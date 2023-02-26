@@ -9,7 +9,7 @@ public class PolygonADT {
     final List<PolygonADT> neighbours = new ArrayList<>();
     final List<SegmentADT> segments;
     final int id;
-    final VertexADT centroid;
+    public final VertexADT centroid;
 
     PolygonADT(MeshADT mesh, List<SegmentADT> segments, List<VertexADT> vertices, int id) {
         this.id = id;
