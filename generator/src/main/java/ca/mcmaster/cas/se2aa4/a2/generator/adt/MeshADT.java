@@ -83,6 +83,7 @@ public class MeshADT {
     }
 
     public Structs.Mesh toMesh() {
+        // calculate neighbours using triangulation
         DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
         ArrayList<Coordinate> coordinates = new ArrayList<>();
         for (PolygonADT polygon : polygons) {
@@ -108,6 +109,7 @@ public class MeshADT {
             polygonC.neighbours.add(polygonB);
         }
 
+        // convert to protobuf
         Structs.Mesh.Builder builder = Structs.Mesh.newBuilder();
         for (VertexADT vertexADT : vertices) {
             builder.addVertices(vertexADT.toVertex());

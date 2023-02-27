@@ -3,7 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 
-public class Thickness {
+public class Thickness implements PropertyADT {
     public int thickness;
 
     // hold thickness

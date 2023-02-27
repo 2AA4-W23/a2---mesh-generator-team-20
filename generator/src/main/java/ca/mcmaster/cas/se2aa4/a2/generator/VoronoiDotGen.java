@@ -15,7 +15,6 @@ public class VoronoiDotGen implements DotGen {
     private final int width;
     private final int height;
     private final int sitesCount;
-
     private final int relaxations;
 
     public VoronoiDotGen(int width, int height, int sitesCount, int relaxations) {
