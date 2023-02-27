@@ -4,6 +4,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -15,6 +17,7 @@ import java.util.List;
 
 
 public class GraphicRenderer {
+    private static final Logger logger = LogManager.getLogger(GraphicRenderer.class);
 
     public void render(Mesh mesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
@@ -24,15 +27,28 @@ public class GraphicRenderer {
         for (Vertex v : vertices) {
             double centre_x = v.getX() - (extractThickness(v.getPropertiesList()) / 2.0d);
             double centre_y = v.getY() - (extractThickness(v.getPropertiesList()) / 2.0d);
-            canvas.setColor(extractColor(v.getPropertiesList()));
+
+            if(System.getProperty("env").equals("debug") && extractCentroid(v.getPropertiesList())){
+                canvas.setColor(new Color(255,0,0));
+            }else{
+                canvas.setColor(extractColor(v.getPropertiesList()));
+            }
+
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, extractThickness(v.getPropertiesList()), extractThickness(v.getPropertiesList()));
             canvas.fill(point);
         }
         for (Segment segment : mesh.getSegmentsList()) {
-            System.out.println(segment);
+            logger.info(segment);
             Vertex a = vertices.get(segment.getV1Idx());
             Vertex b = vertices.get(segment.getV2Idx());
-            canvas.setColor(extractColor(segment.getPropertiesList()));
+            if(System.getProperty("env").equals("debug")){
+                // Debugmode: function color (0,0,0)
+                canvas.setColor(new Color(0,0,0));
+            }else{
+                canvas.setColor(extractColor(segment.getPropertiesList()));
+            }
+
+
             // thickness
             stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
             canvas.setStroke(stroke);
@@ -45,7 +61,7 @@ public class GraphicRenderer {
         String val = null;
         for (Property p : properties) {
             if (p.getKey().equals("rgb_color")) {
-                // System.out.println(p.getValue());
+                logger.info(p.getValue());
                 val = p.getValue();
             }
         }
@@ -75,5 +91,22 @@ public class GraphicRenderer {
         int raw = Integer.parseInt(val);
         return raw;
     }
+
+    // extract centroid; [True]
+    private boolean extractCentroid(List<Property> properties){
+        String val = null;
+        for (Property p : properties) {
+            if (p.getKey().equals("centroid")) {
+                // System.out.println(p.getValue());
+                val = p.getValue();
+            }
+        }
+        if (val == null) {
+            return false;
+        }
+
+        return val.equals("true");
+    }
+
 
 }

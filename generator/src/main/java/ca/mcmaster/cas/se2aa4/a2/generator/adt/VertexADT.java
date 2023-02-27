@@ -9,6 +9,7 @@ public class VertexADT {
     public final double y;
     public Color color;
     public Thickness thickness;
+    public Boolean centroid;
     final ArrayList<SegmentADT> segments = new ArrayList<>();
     final int id;
 
@@ -28,7 +29,14 @@ public class VertexADT {
         if (thickness != null) {
             builder.addProperties(thickness.toProperty());
         }
+        if (centroid != null){
+            builder.addProperties(toCentroidProperty());
+        }
         return builder.build();
+    }
+
+    private Structs.Property toCentroidProperty() {
+        return Structs.Property.newBuilder().setKey("centroid").setValue(String.valueOf(centroid)).build();
     }
 
     @Override

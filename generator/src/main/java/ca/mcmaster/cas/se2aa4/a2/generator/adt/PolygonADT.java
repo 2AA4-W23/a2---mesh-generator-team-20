@@ -21,8 +21,10 @@ public class PolygonADT {
             y += vertex.y;
         }
         centroid = mesh.getVertex(x / vertices.size(), y / vertices.size());
+        centroid.centroid=true;
     }
 
+    // Method to calculate
     public Structs.Polygon toPolygon() {
         Structs.Polygon.Builder builder = Structs.Polygon.newBuilder();
         for (PolygonADT neighbour : neighbours) {
