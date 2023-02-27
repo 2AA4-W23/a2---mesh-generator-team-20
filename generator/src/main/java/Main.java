@@ -13,13 +13,12 @@ public class Main {
     private static final Option GRID = new Option("g", "grid",false, "create a grid mesh");
     private static final Option IRREGULAR = new Option("i", "irregular",false, "create an irregular mesh");
     private static final Option TRIANGLE = new Option("t", "triangle",false, "create an triangle mesh");
-
     private static void printHelp(Options options){
         HelpFormatter formatter = new HelpFormatter();
         PrintWriter pw = new PrintWriter(System.out);
         pw.println("MeshCreator"+Math.class.getPackage().getImplementationVersion());
         pw.println();
-        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize relaxation\"");
+        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize thickness relaxation\"");
         formatter.printOptions(pw, 100, options, 2,5);
         pw.close();
     }
@@ -44,13 +43,15 @@ public class Main {
             int width = 0;
             int height = 0;
             int squareSize = 0;
+            int thickness = 0;
             int relaxation = 0;
             try{
                 width = Integer.parseInt(cmd.getArgList().get(1));
                 height = Integer.parseInt(cmd.getArgList().get(2));
                 squareSize = Integer.parseInt(cmd.getArgList().get(3));
+                thickness = Integer.parseInt(cmd.getArgList().get(4));
                 if (cmd.hasOption("-i")){
-                    relaxation = Integer.parseInt(cmd.getArgList().get(4));
+                    relaxation = Integer.parseInt(cmd.getArgList().get(5));
                     if(relaxation < 1){
                         throw new IllegalArgumentException("Relaxation must > 0");
                     }
@@ -62,17 +63,17 @@ public class Main {
             }
 
             if(cmd.hasOption("-g")){
-                DotGen generator = new SquareDotGen(width, height, squareSize);
+                DotGen generator = new SquareDotGen(width, height, squareSize, thickness);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
             } else if (cmd.hasOption("-i")) {
-                DotGen generator = new VoronoiDotGen(width, height, squareSize,relaxation);
+                DotGen generator = new VoronoiDotGen(width, height, squareSize, thickness, relaxation);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);
             } else if (cmd.hasOption("-t")) {
-                DotGen generator = new TriangleDotGen(width, height, squareSize);
+                DotGen generator = new TriangleDotGen(width, height, squareSize, thickness);
                 Mesh myMesh = generator.generateMesh();
                 MeshFactory factory = new MeshFactory();
                 factory.write(myMesh, args[0]);

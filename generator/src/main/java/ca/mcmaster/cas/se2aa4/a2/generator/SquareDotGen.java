@@ -9,11 +9,13 @@ public class SquareDotGen implements DotGen {
     private final int width;
     private final int height;
     private final int squareSize;
+    private final int thickness;
 
-    public SquareDotGen(int width, int height, int squareSize) {
+    public SquareDotGen(int width, int height, int squareSize, int thickness) {
         this.width = width;
         this.height = height;
         this.squareSize = squareSize;
+        this.thickness = thickness;
     }
 
     public Structs.Mesh generateMesh() {
@@ -47,8 +49,12 @@ public class SquareDotGen implements DotGen {
                 // Segment: line change thickness
                 SegmentADT segmentAB = mesh.getSegment(a, b);
                 SegmentADT segmentBC = mesh.getSegment(b, c);
-                segmentAB.thickness = new Thickness(2);
-                segmentBC.thickness = new Thickness(2);
+                SegmentADT segmentCD = mesh.getSegment(c, d);
+                SegmentADT segmentDA = mesh.getSegment(d, a);
+                segmentAB.thickness = new Thickness(thickness);
+                segmentBC.thickness = new Thickness(thickness);
+                segmentCD.thickness = new Thickness(thickness);
+                segmentDA.thickness = new Thickness(thickness);
 
                 mesh.getPolygon(vertices);
             }
