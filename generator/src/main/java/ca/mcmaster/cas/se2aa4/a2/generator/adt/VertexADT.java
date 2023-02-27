@@ -8,6 +8,7 @@ public class VertexADT {
     public double x;
     public double y;
     public Color color;
+    public Thickness thickness;
     final ArrayList<SegmentADT> segments = new ArrayList<>();
     final int id;
 
@@ -23,6 +24,9 @@ public class VertexADT {
                 .setY(y);
         if (color != null) {
             builder.addProperties(color.toProperty());
+        }
+        if (thickness != null) {
+            builder.addProperties(thickness.toProperty());
         }
         return builder.build();
     }

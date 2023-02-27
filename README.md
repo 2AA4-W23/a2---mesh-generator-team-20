@@ -26,7 +26,8 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 
 ```
 mosser@azrael A2 % cd generator 
-mosser@azrael generator % java -jar generator.jar sample.mesh
+[//]: # (mosser@azrael generator % java -jar generator.jar sample.mesh)
+mosser@azrael generator % mvn -q -e exec:java -Dexec.args="sample.mesh [options] [width] [height] [squareSize] [relaxation]"
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
