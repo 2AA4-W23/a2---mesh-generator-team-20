@@ -15,14 +15,16 @@ public class VoronoiDotGen implements DotGen {
     private final int width;
     private final int height;
     private final int sitesCount;
-    private final int thickness;
+    private final int segmentThickness;
+    private final int vertexThickness;
     private final int relaxations;
 
-    public VoronoiDotGen(int width, int height, int sitesCount, int thickness, int relaxations) {
+    public VoronoiDotGen(int width, int height, int sitesCount, int segmentThickness, int vertexThickness, int relaxations) {
         this.width = width;
         this.height = height;
         this.sitesCount = sitesCount;
-        this.thickness = thickness;
+        this.segmentThickness = segmentThickness;
+        this.vertexThickness = vertexThickness;
         this.relaxations = relaxations;
     }
 
@@ -71,11 +73,12 @@ public class VoronoiDotGen implements DotGen {
             for (int j = 0; j < polygonCoordinates.length - 1; j++) {
                 Coordinate coordinate = polygonCoordinates[j];
                 vertices.add(mesh.getVertex(coordinate.x, coordinate.y));
+                mesh.getVertex(coordinate.x, coordinate.y).thickness = new Thickness(vertexThickness);
             }
 
             for (int j = 0; j < vertices.size(); j++) {
                 SegmentADT segmentADT = mesh.getSegment(vertices.get(j), vertices.get((j + 1) % vertices.size()));
-                segmentADT.thickness = new Thickness(thickness);
+                segmentADT.thickness = new Thickness(segmentThickness);
             }
 
             mesh.getPolygon(vertices);
