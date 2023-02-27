@@ -2,10 +2,13 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.adt.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class SquareDotGen implements DotGen {
+    private static final Logger logger = LogManager.getLogger(SquareDotGen.class);
     private final int width;
     private final int height;
     private final int squareSize;
@@ -13,6 +16,9 @@ public class SquareDotGen implements DotGen {
     private final int vertexThickness;
 
     public SquareDotGen(int width, int height, int squareSize, int segmentThickness, int vertexThickness) {
+        // log all parameters in one line
+        logger.trace("SquareDotGen width: {}, height: {}, squareSize: {}, segmentThickness: {}, vertexThickness: {}", width, height, squareSize, segmentThickness, vertexThickness);
+
         this.width = width;
         this.height = height;
         this.squareSize = squareSize;
@@ -30,6 +36,7 @@ public class SquareDotGen implements DotGen {
                 vertex.color = Color.random();
             }
         }
+        logger.trace("Created all vertices");
 
         // Create all the polygons
         for (double x = 0; x < width; x += squareSize) {
@@ -69,6 +76,8 @@ public class SquareDotGen implements DotGen {
                 PolygonADT polygon = mesh.getPolygon(vertices);
                 polygon.centroid.thickness = new Thickness(vertexThickness);
                 polygon.centroid.color = Color.random();
+
+                logger.trace("Created square: {}", polygon);
             }
         }
 

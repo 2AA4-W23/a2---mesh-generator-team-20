@@ -2,6 +2,8 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.adt.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 public class VoronoiDotGen implements DotGen {
+    // logger
+    private static final Logger logger = LogManager.getLogger(VoronoiDotGen.class);
     private final int width;
     private final int height;
     private final int sitesCount;
@@ -19,6 +23,8 @@ public class VoronoiDotGen implements DotGen {
     private final int relaxations;
 
     public VoronoiDotGen(int width, int height, int sitesCount, int segmentThickness, int vertexThickness, int relaxations) {
+        // log all parameters in one line
+        logger.trace("VoronoiDotGen width: {}, height: {}, sitesCount: {}, segmentThickness: {}, vertexThickness: {}, relaxations: {}", width, height, sitesCount, segmentThickness, vertexThickness, relaxations);
         this.width = width;
         this.height = height;
         this.sitesCount = sitesCount;
@@ -86,11 +92,13 @@ public class VoronoiDotGen implements DotGen {
             double y = random.nextDouble() * height;
             sites.add(new Coordinate(x, y));
         }
-        GeometryCollection diagram = null;
+        logger.trace("Generated random sites");
 
+        GeometryCollection diagram = null;
         for (int i = 0; i < relaxations; i++) {
             diagram = generateVoronoi(sites);
             sites = applyRelaxation(diagram);
+            logger.trace("Applied relaxation {}", i+1);
         }
 
         MeshADT mesh = new MeshADT();

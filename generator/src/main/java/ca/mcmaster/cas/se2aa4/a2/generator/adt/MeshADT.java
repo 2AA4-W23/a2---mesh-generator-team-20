@@ -1,6 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
@@ -9,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MeshADT {
+    // logger
+    private static final Logger logger = LogManager.getLogger(MeshADT.class);
     private final ArrayList<VertexADT> vertices = new ArrayList<>();
     private final ArrayList<SegmentADT> segments = new ArrayList<>();
     private final ArrayList<PolygonADT> polygons = new ArrayList<>();
@@ -17,29 +21,39 @@ public class MeshADT {
     }
 
     public VertexADT getVertex(double x, double y) {
+        logger.trace("getVertex x: {}, y: {}", x, y);
         for (VertexADT vertex : vertices) {
             if (vertex.x == x && vertex.y == y) {
+                logger.trace("Vertex already exists");
                 return vertex;
             }
         }
+
+        logger.trace("Vertex does not exist, creating new one");
         VertexADT vertex = new VertexADT(x, y, vertices.size());
         vertices.add(vertex);
         return vertex;
     }
 
     public SegmentADT getSegment(VertexADT start, VertexADT end) {
+        logger.trace("getSegment start: {}, end: {}", start, end);
         for (SegmentADT segment : segments) {
             if ((segment.start == start && segment.end == end) || (segment.end == start && segment.start == end)) {
+                logger.trace("Segment already exists");
                 return segment;
             }
         }
+
+        logger.trace("Segment does not exist, creating new one");
         SegmentADT segment = new SegmentADT(start, end, segments.size());
         segments.add(segment);
         return segment;
     }
 
     public PolygonADT getPolygon(List<VertexADT> polygonVertices) {
-        ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
+        logger.trace("getPolygon polygonVertices: {}", polygonVertices);
+
+        // use JTS convex hull to make sure the vertices are in the correct order
         Coordinate[] coordinates = new Coordinate[polygonVertices.size() + 1];
         for (int i = 0; i < polygonVertices.size(); i++) {
             coordinates[i] = new Coordinate(polygonVertices.get(i).x, polygonVertices.get(i).y);
@@ -53,6 +67,8 @@ public class MeshADT {
             polygonVertices.add(getVertex(coordinate.x, coordinate.y));
         }
 
+        // create the polygon
+        ArrayList<SegmentADT> polygonSegments = new ArrayList<>(polygonVertices.size());
         for (int i = 1; i < polygonVertices.size(); i++) {
             polygonSegments.add(getSegment(polygonVertices.get(i - 1), polygonVertices.get(i)));
         }
@@ -60,6 +76,7 @@ public class MeshADT {
 
         PolygonADT polygon = new PolygonADT(this, polygonSegments, polygonVertices, polygons.size());
         polygons.add(polygon);
+
         return polygon;
     }
 
@@ -72,17 +89,9 @@ public class MeshADT {
         return null;
     }
 
-    public List<VertexADT> getVertices() {
-        return Collections.unmodifiableList(vertices);
-    }
-
-    public List<SegmentADT> getSegments() { return Collections.unmodifiableList(segments); }
-
-    public List<PolygonADT> getPolygons() {
-        return Collections.unmodifiableList(polygons);
-    }
-
     public Structs.Mesh toMesh() {
+        logger.trace("toMesh {} vertices, {} segments, {} polygons", vertices.size(), segments.size(), polygons.size());
+
         // calculate neighbours using triangulation
         DelaunayTriangulationBuilder triangulationBuilder = new DelaunayTriangulationBuilder();
         ArrayList<Coordinate> coordinates = new ArrayList<>();
