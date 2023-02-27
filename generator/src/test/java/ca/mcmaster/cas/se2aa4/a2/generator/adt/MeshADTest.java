@@ -78,10 +78,6 @@ public class MeshADTest {
         vertices.add(h);
 
         ArrayList<SegmentADT> segments = new ArrayList<>(vertices.size());
-//        for (int i = 1; i < vertices.size(); i++) {
-//            segments.add(mesh.getSegment(vertices.get(i - 1), vertices.get(i)));
-//        }
-//        segments.add(mesh.getSegment(vertices.get(vertices.size() - 1), vertices.get(0)));
 
         Structs.Mesh meshBuild = mesh.toMesh();
         assertNotNull(meshBuild);
