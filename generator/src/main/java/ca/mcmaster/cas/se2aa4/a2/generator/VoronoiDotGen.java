@@ -7,6 +7,8 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class VoronoiDotGen implements DotGen {
@@ -23,55 +25,66 @@ public class VoronoiDotGen implements DotGen {
         this.relaxations = relaxations;
     }
 
-    @Override
-    public Structs.Mesh generateMesh() {
-        ArrayList<Coordinate> coordinates = new ArrayList<>();
-        Random random = new Random(0);
-        for (int i = 0; i < sitesCount; i++) {
-            double x = random.nextDouble() * width;
-            double y = random.nextDouble() * height;
-            coordinates.add(new Coordinate(x, y));
+    private GeometryCollection generateVoronoi(Collection<Coordinate> sites) {
+        VoronoiDiagramBuilder vdb = new VoronoiDiagramBuilder();
+
+        vdb.setSites(sites);
+
+        GeometryFactory gf = new GeometryFactory();
+
+        GeometryCollection diagram = (GeometryCollection) vdb.getDiagram(gf);
+        Polygon clip = new GeometryFactory().createPolygon(new Coordinate[]{
+                new Coordinate(0, 0),
+                new Coordinate(width, 0),
+                new Coordinate(width, height),
+                new Coordinate(0, height),
+                new Coordinate(0, 0)
+        });
+
+        return (GeometryCollection) diagram.intersection(clip);
+    }
+
+    private List<Coordinate> applyRelaxation(GeometryCollection voronoiDiagram) {
+        List<Coordinate> newCoordinates = new ArrayList<>();
+        for (int j = 0; j < voronoiDiagram.getNumGeometries(); j++) {
+            Polygon polygon = (Polygon) voronoiDiagram.getGeometryN(j);
+            Coordinate centroid = polygon.getCentroid().getCoordinate();
+            newCoordinates.add(centroid);
         }
-        GeometryCollection diagram = null;
+        return newCoordinates;
+    }
 
-        for (int i = 0; i < relaxations; i++) {
-            VoronoiDiagramBuilder vdb = new VoronoiDiagramBuilder();
-
-            vdb.setSites(coordinates);
-
-            GeometryFactory gf = new GeometryFactory();
-
-            diagram = (GeometryCollection) vdb.getDiagram(gf);
-            Polygon clip = new GeometryFactory().createPolygon(new Coordinate[]{
-                    new Coordinate(0, 0),
-                    new Coordinate(width, 0),
-                    new Coordinate(width, height),
-                    new Coordinate(0, height),
-                    new Coordinate(0, 0)
-            });
-            diagram = (GeometryCollection) diagram.intersection(clip);
-
-            ArrayList<Coordinate> newCoordinates = new ArrayList<>();
-            for (int j = 0; j < diagram.getNumGeometries(); j++) {
-                Polygon polygon = (Polygon) diagram.getGeometryN(j);
-                Coordinate centroid = polygon.getCentroid().getCoordinate();
-                newCoordinates.add(centroid);
-                coordinates = newCoordinates;
-            }
-        }
-
-        MeshADT mesh = new MeshADT();
+    private void convertJTSMeshToADT(GeometryCollection diagram, MeshADT mesh) {
         for (int i = 0; i < diagram.getNumGeometries(); i++) {
             Polygon polygon = (Polygon) diagram.getGeometryN(i);
             ArrayList<VertexADT> vertices = new ArrayList<>();
             Coordinate[] polygonCoordinates = polygon.getCoordinates();
-            for (int j = 0; j < polygonCoordinates.length-1; j++) {
+            for (int j = 0; j < polygonCoordinates.length - 1; j++) {
                 Coordinate coordinate = polygonCoordinates[j];
                 vertices.add(mesh.getVertex(coordinate.x, coordinate.y));
             }
-            System.out.println(vertices);
             mesh.getPolygon(vertices);
         }
+    }
+
+    @Override
+    public Structs.Mesh generateMesh() {
+        List<Coordinate> sites = new ArrayList<>();
+        Random random = new Random(0);
+        for (int i = 0; i < sitesCount; i++) {
+            double x = random.nextDouble() * width;
+            double y = random.nextDouble() * height;
+            sites.add(new Coordinate(x, y));
+        }
+        GeometryCollection diagram = null;
+
+        for (int i = 0; i < relaxations; i++) {
+            diagram = generateVoronoi(sites);
+            sites = applyRelaxation(diagram);
+        }
+
+        MeshADT mesh = new MeshADT();
+        convertJTSMeshToADT(diagram, mesh);
         return mesh.toMesh();
     }
 }
