@@ -36,6 +36,8 @@ public class DotGen {
                 VertexADT c = mesh.getVertex(x + squareSize, y + squareSize);
                 VertexADT d = mesh.getVertex(x, y + squareSize);
 
+
+
                 ArrayList<VertexADT> vertices = new ArrayList<>(4);
                 vertices.add(a);
                 vertices.add(b);

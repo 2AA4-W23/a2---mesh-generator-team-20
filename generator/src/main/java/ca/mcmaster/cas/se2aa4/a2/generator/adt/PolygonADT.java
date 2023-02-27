@@ -29,8 +29,12 @@ public class PolygonADT {
             x += vertex.x;
             y += vertex.y;
         }
-        return mesh.getVertex(x / segments.size(), y / segments.size());
+        VertexADT vertex= mesh.getVertex(x / segments.size(), y / segments.size());
+        vertex.centroid=true;
+        return vertex;
     }
+
+    // Method to calculate
 
     public Structs.Polygon toPolygon() {
         Structs.Polygon.Builder builder = Structs.Polygon.newBuilder();

@@ -29,6 +29,14 @@ public class GraphicRenderer {
         for (Vertex v : vertices) {
             double centre_x = v.getX() - (THICKNESS / 2.0d);
             double centre_y = v.getY() - (THICKNESS / 2.0d);
+
+            // change centroid to red
+            if(extractCentroid(v.getPropertiesList())){
+                canvas.setColor(new Color(255,0,0));
+            }else{
+                canvas.setColor(new Color(0,0,0));
+            }
+
             canvas.setColor(extractColor(v.getPropertiesList()));
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
@@ -37,7 +45,14 @@ public class GraphicRenderer {
             logger.info(segment);
             Vertex a = vertices.get(segment.getV1Idx());
             Vertex b = vertices.get(segment.getV2Idx());
-            canvas.setColor(extractColor(segment.getPropertiesList()));
+            if(System.getProperty("env").equals("debug")){
+                // Debugmode: function color (0,0,0)
+                canvas.setColor(new Color(0,0,0));
+            }else{
+                canvas.setColor(extractColor(segment.getPropertiesList()));
+            }
+
+
             // thickness
             stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
             canvas.setStroke(stroke);
@@ -80,5 +95,22 @@ public class GraphicRenderer {
         int raw = Integer.parseInt(val);
         return raw;
     }
+
+    // extract centroid; [True]
+    private boolean extractCentroid(List<Property> properties){
+        String val = null;
+        for (Property p : properties) {
+            if (p.getKey().equals("centroid")) {
+                // System.out.println(p.getValue());
+                val = p.getValue();
+            }
+        }
+        if (val == null) {
+            return false;
+        }
+
+        return val.equals("true");
+    }
+
 
 }
