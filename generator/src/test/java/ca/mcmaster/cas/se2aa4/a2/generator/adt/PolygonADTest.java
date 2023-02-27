@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class PolygonADTest {
     final MeshADT mesh = new MeshADT();
     final ArrayList<VertexADT> vertices = new ArrayList<>();
-    final ArrayList<SegmentADT> segments = new ArrayList<>(vertices.size());
+    final ArrayList<SegmentADT> segments = new ArrayList<>();
 
     @Test
     public void getVerticesTest() {

@@ -64,25 +64,22 @@ public class Main {
                 System.exit(-1);
             }
 
+            DotGen generator;
             if(cmd.hasOption("-g")){
-                DotGen generator = new SquareDotGen(width, height, squareSize, segmentThickness, vertexThickness);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new SquareDotGen(width, height, squareSize, segmentThickness, vertexThickness);
             } else if (cmd.hasOption("-i")) {
-                DotGen generator = new VoronoiDotGen(width, height, squareSize, segmentThickness, vertexThickness, relaxation);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new VoronoiDotGen(width, height, squareSize, segmentThickness, vertexThickness, relaxation);
             } else if (cmd.hasOption("-t")) {
-                DotGen generator = new TriangleDotGen(width, height, squareSize, segmentThickness, vertexThickness);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new TriangleDotGen(width, height, squareSize, segmentThickness, vertexThickness);
             } else {
                 System.out.println("c");
                 printHelp(options);
+                return;
             }
+
+            Mesh myMesh = generator.generateMesh();
+            MeshFactory factory = new MeshFactory();
+            factory.write(myMesh, args[0]);
         } catch(ParseException e){
             e.printStackTrace();
         }

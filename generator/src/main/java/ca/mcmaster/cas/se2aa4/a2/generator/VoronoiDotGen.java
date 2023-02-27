@@ -1,9 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.MeshADT;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.SegmentADT;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.Thickness;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.VertexADT;
+import ca.mcmaster.cas.se2aa4.a2.generator.adt.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
@@ -75,7 +72,8 @@ public class VoronoiDotGen implements DotGen {
                 segmentADT.thickness = new Thickness(segmentThickness);
             }
 
-            mesh.getPolygon(vertices);
+            PolygonADT polygonADT = mesh.getPolygon(vertices);
+            polygonADT.centroid.thickness = new Thickness(vertexThickness);
         }
     }
 

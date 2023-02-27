@@ -29,7 +29,7 @@ public class MeshADT {
 
     public SegmentADT getSegment(VertexADT start, VertexADT end) {
         for (SegmentADT segment : segments) {
-            if ((segment.getStart() == start && segment.getEnd() == end) || (segment.getEnd() == start && segment.getStart() == end)) {
+            if ((segment.start == start && segment.end == end) || (segment.end == start && segment.start == end)) {
                 return segment;
             }
         }

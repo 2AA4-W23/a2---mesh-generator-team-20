@@ -21,8 +21,8 @@ public class MeshADTest {
         VertexADT vertexEnd = new VertexADT(4,5,6);
         MeshADT segment = new MeshADT();
         SegmentADT expected = segment.getSegment(vertexStart, vertexEnd);
-        assertEquals(expected.getStart(), vertexStart);
-        assertEquals(expected.getEnd(), vertexEnd);
+        assertEquals(expected.start, vertexStart);
+        assertEquals(expected.end, vertexEnd);
     }
     @Test
     public void getPolygonTest(){
