@@ -60,6 +60,8 @@ When you develop features and enrich the product, remember that you have first t
 ### Definition of Done
 
 -- Insert here your definition of done for your features --
+### Step2 demonstrate:
+In step2 we created several adt to produce full meshes. The user can adjust thickness, color of the grid mesh. By manually active Visualization mode, the user can view the polygons in black, centroids in red, and neighborhood relationships in light grey
 
 ### Product Backlog
 
