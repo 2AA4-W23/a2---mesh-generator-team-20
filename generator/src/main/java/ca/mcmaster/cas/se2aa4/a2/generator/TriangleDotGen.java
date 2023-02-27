@@ -2,10 +2,14 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import ca.mcmaster.cas.se2aa4.a2.generator.adt.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class TriangleDotGen implements DotGen {
+    //logger
+    private static final Logger logger = LogManager.getLogger(TriangleDotGen.class);
     private final int width;
     private final int height;
     private final int squareSize;
@@ -13,6 +17,8 @@ public class TriangleDotGen implements DotGen {
     private final int vertexThickness;
 
     public TriangleDotGen(int width, int height, int squareSize, int segmentThickness, int vertexThickness) {
+        // log all parameters in one line
+        logger.trace("TriangleDotGen width: {}, height: {}, squareSize: {}, segmentThickness: {}, vertexThickness: {}", width, height, squareSize, segmentThickness, vertexThickness);
         this.width = width;
         this.height = height;
         this.squareSize = squareSize;
@@ -30,6 +36,7 @@ public class TriangleDotGen implements DotGen {
                 vertex.color = Color.random();
             }
         }
+        logger.trace("Created all vertices");
 
         // Create all the polygons
         for (double x = 0; x < width; x += squareSize) {
@@ -49,11 +56,6 @@ public class TriangleDotGen implements DotGen {
                 generateTriangle(a, b, d, mesh);
                 generateTriangle(b, c, d, mesh);
             }
-        }
-
-        // color segments
-        for (SegmentADT segment : mesh.getSegments()) {
-            segment.color = Color.average(segment.start.color, segment.end.color);
         }
 
         return mesh.toMesh();
@@ -77,5 +79,6 @@ public class TriangleDotGen implements DotGen {
 
         PolygonADT polygonADT = mesh.getPolygon(vertices);
         polygonADT.centroid.thickness = new Thickness(vertexThickness);
+        logger.trace("Created triangle {}", polygonADT);
     }
 }
