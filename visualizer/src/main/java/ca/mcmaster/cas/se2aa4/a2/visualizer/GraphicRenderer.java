@@ -16,18 +16,16 @@ import java.util.List;
 
 public class GraphicRenderer {
 
-    private static final int THICKNESS = 3;
-
     public void render(Mesh mesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
         List<Vertex> vertices = mesh.getVerticesList();
         for (Vertex v : vertices) {
-            double centre_x = v.getX() - (THICKNESS / 2.0d);
-            double centre_y = v.getY() - (THICKNESS / 2.0d);
+            double centre_x = v.getX() - (extractThickness(v.getPropertiesList()) / 2.0d);
+            double centre_y = v.getY() - (extractThickness(v.getPropertiesList()) / 2.0d);
             canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, extractThickness(v.getPropertiesList()), extractThickness(v.getPropertiesList()));
             canvas.fill(point);
         }
         for (Segment segment : mesh.getSegmentsList()) {
