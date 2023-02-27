@@ -3,8 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 public class SegmentADT {
-    private final VertexADT start;
-    private final VertexADT end;
+    public final VertexADT start;
+    public final VertexADT end;
     public Color color;
     // field of thickness
     public Thickness thickness;
@@ -30,14 +30,6 @@ public class SegmentADT {
             builder.addProperties(thickness.toProperty());
         }
         return builder.build();
-    }
-
-    public VertexADT getStart() {
-        return start;
-    }
-
-    public VertexADT getEnd() {
-        return end;
     }
 
     @Override

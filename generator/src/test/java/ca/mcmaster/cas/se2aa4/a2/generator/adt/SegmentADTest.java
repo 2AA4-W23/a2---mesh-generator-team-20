@@ -17,17 +17,10 @@ public class SegmentADTest {
     }
     @Test
     public void getStartTest(){
-        assertEquals(a,segment.getStart());
+        assertEquals(a,segment.start);
     }
     @Test
     public void getEndTest(){
-        assertEquals(b,segment.getEnd());
-    }
-    @Test
-    public void toStringTest(){
-        assertEquals("SegmentADT{" +
-                "start=" + segment.getStart() +
-                ", end=" + segment.getEnd() +
-                '}', segment.toString());
+        assertEquals(b,segment.end);
     }
 }

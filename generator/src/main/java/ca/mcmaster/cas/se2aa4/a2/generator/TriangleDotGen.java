@@ -12,7 +12,6 @@ public class TriangleDotGen implements DotGen {
     private final int segmentThickness;
     private final int vertexThickness;
 
-
     public TriangleDotGen(int width, int height, int squareSize, int segmentThickness, int vertexThickness) {
         this.width = width;
         this.height = height;
@@ -47,48 +46,36 @@ public class TriangleDotGen implements DotGen {
                 c.thickness = new Thickness(vertexThickness);
                 d.thickness = new Thickness(vertexThickness);
 
-                ArrayList<VertexADT> vertices = new ArrayList<>(4);
-                vertices.add(a);
-                vertices.add(b);
-                vertices.add(d);
-
-                // Segment: line change thickness
-                SegmentADT segmentAB = mesh.getSegment(a, b);
-                SegmentADT segmentBC = mesh.getSegment(b, c);
-                SegmentADT segmentCD = mesh.getSegment(c, d);
-                SegmentADT segmentDA = mesh.getSegment(d, a);
-                segmentAB.thickness = new Thickness(segmentThickness);
-                segmentBC.thickness = new Thickness(segmentThickness);
-                segmentCD.thickness = new Thickness(segmentThickness);
-                segmentDA.thickness = new Thickness(segmentThickness);
-
-                mesh.getPolygon(vertices);
-
-                ArrayList<VertexADT> vertices2 = new ArrayList<>(4);
-                vertices2.add(c);
-                vertices2.add(b);
-                vertices2.add(d);
-                mesh.getPolygon(vertices2);
-
-                ArrayList<VertexADT> vertices3 = new ArrayList<>(4);
-                vertices3.add(a);
-                vertices3.add(b);
-                vertices3.add(c);
-                mesh.getPolygon(vertices3);
-
-                ArrayList<VertexADT> vertices4 = new ArrayList<>(4);
-                vertices4.add(a);
-                vertices4.add(d);
-                vertices4.add(c);
-                mesh.getPolygon(vertices4);
+                generateTriangle(a, b, d, mesh);
+                generateTriangle(b, c, d, mesh);
             }
         }
 
         // color segments
         for (SegmentADT segment : mesh.getSegments()) {
-            segment.color = Color.average(segment.getStart().color, segment.getEnd().color);
+            segment.color = Color.average(segment.start.color, segment.end.color);
         }
 
         return mesh.toMesh();
+    }
+
+    private void generateTriangle(VertexADT a, VertexADT b, VertexADT c, MeshADT mesh) {
+        ArrayList<VertexADT> vertices = new ArrayList<>();
+        vertices.add(a);
+        vertices.add(b);
+        vertices.add(c);
+
+        SegmentADT segmentAB = mesh.getSegment(a, b);
+        SegmentADT segmentBC = mesh.getSegment(b, c);
+        SegmentADT segmentCA = mesh.getSegment(c, a);
+        segmentAB.thickness = new Thickness(segmentThickness);
+        segmentAB.color = Color.average(a.color, b.color);
+        segmentBC.thickness = new Thickness(segmentThickness);
+        segmentBC.color = Color.average(b.color, c.color);
+        segmentCA.thickness = new Thickness(segmentThickness);
+        segmentCA.color = Color.average(c.color, a.color);
+
+        PolygonADT polygonADT = mesh.getPolygon(vertices);
+        polygonADT.centroid.thickness = new Thickness(vertexThickness);
     }
 }

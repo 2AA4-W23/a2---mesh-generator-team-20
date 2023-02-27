@@ -58,19 +58,18 @@ public class SquareDotGen implements DotGen {
                 SegmentADT segmentCD = mesh.getSegment(c, d);
                 SegmentADT segmentDA = mesh.getSegment(d, a);
                 segmentAB.thickness = new Thickness(segmentThickness);
+                segmentAB.color = Color.average(a.color, b.color);
                 segmentBC.thickness = new Thickness(segmentThickness);
+                segmentBC.color = Color.average(b.color, c.color);
                 segmentCD.thickness = new Thickness(segmentThickness);
+                segmentCD.color = Color.average(c.color, d.color);
                 segmentDA.thickness = new Thickness(segmentThickness);
+                segmentDA.color = Color.average(d.color, a.color);
 
                 PolygonADT polygon = mesh.getPolygon(vertices);
                 polygon.centroid.thickness = new Thickness(vertexThickness);
                 polygon.centroid.color = Color.random();
             }
-        }
-
-        // color segments
-        for (SegmentADT segment : mesh.getSegments()) {
-            segment.color = Color.average(segment.getStart().color, segment.getEnd().color);
         }
 
         return mesh.toMesh();

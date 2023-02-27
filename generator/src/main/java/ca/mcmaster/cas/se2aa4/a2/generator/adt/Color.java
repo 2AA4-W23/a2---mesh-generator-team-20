@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.util.Random;
 
-public class Color {
+public class Color implements PropertyADT {
     public int red;
     public int green;
     public int blue;

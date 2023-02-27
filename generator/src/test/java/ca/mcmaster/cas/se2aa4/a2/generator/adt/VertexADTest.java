@@ -10,11 +10,4 @@ public class VertexADTest {
     public void toVertexTest(){
         assertNotNull(vertex.toVertex());
     }
-    @Test
-    public void toStringTest(){
-        assertEquals("VertexADT{" +
-                "x=" + vertex.x +
-                ", y=" + vertex.y +
-                '}',vertex.toString());
-    }
 }

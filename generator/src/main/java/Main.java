@@ -16,9 +16,7 @@ public class Main {
     private static void printHelp(Options options){
         HelpFormatter formatter = new HelpFormatter();
         PrintWriter pw = new PrintWriter(System.out);
-        pw.println("MeshCreator"+Math.class.getPackage().getImplementationVersion());
-        pw.println();
-        formatter.printUsage(pw, 100, "mvn compile && mvn -q -e exec:java -Dexec.args=\"sample.mesh [options] width height squareSize segmentThickness vertexThickness (relaxation)\"");
+        formatter.printUsage(pw, 100, "java -jar generator.jar sample.mesh [options] width height squareSize/sitesCount segmentThickness vertexThickness (relaxation)");
         formatter.printOptions(pw, 100, options, 2,5);
         pw.close();
     }
@@ -34,7 +32,6 @@ public class Main {
         try{
             CommandLine cmd = parser.parse(options, args);
 
-            System.out.println(cmd.getArgList());
             if(cmd.getArgList().size() < 1){
                 printHelp(options);
                 System.exit(-1);
@@ -64,25 +61,22 @@ public class Main {
                 System.exit(-1);
             }
 
+            DotGen generator;
             if(cmd.hasOption("-g")){
-                DotGen generator = new SquareDotGen(width, height, squareSize, segmentThickness, vertexThickness);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new SquareDotGen(width, height, squareSize, segmentThickness, vertexThickness);
             } else if (cmd.hasOption("-i")) {
-                DotGen generator = new VoronoiDotGen(width, height, squareSize, segmentThickness, vertexThickness, relaxation);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new VoronoiDotGen(width, height, squareSize, segmentThickness, vertexThickness, relaxation);
             } else if (cmd.hasOption("-t")) {
-                DotGen generator = new TriangleDotGen(width, height, squareSize, segmentThickness, vertexThickness);
-                Mesh myMesh = generator.generateMesh();
-                MeshFactory factory = new MeshFactory();
-                factory.write(myMesh, args[0]);
+                generator = new TriangleDotGen(width, height, squareSize, segmentThickness, vertexThickness);
             } else {
                 System.out.println("c");
                 printHelp(options);
+                return;
             }
+
+            Mesh myMesh = generator.generateMesh();
+            MeshFactory factory = new MeshFactory();
+            factory.write(myMesh, args[0]);
         } catch(ParseException e){
             e.printStackTrace();
         }

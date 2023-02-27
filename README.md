@@ -22,12 +22,21 @@ After installation, you'll find an application named `generator.jar` in the `gen
 
 ### Generator
 
-To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes one single argument (so far), the name of the file where the generated mesh will be stored as binary.
+To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes several arguments:
+
+- the name of the file to store the mesh
+- the type of the mesh
+- the width of the mesh (in px)
+- the height of the mesh (in px)
+- the number of sites (for the Voronoi mesh) or the size of the squares (for other meshes)
+- the thickness of the segments (in px)
+- the thickness of the vertices (in px)
+- the number of relaxation steps (for the Voronoi mesh)
 
 ```
 mosser@azrael A2 % cd generator 
 [//]: # (mosser@azrael generator % java -jar generator.jar sample.mesh)
-mosser@azrael generator % mvn -q -e exec:java -Dexec.args="sample.mesh [options] [width] [height] [squareSize] [relaxation]"
+mosser@azrael generator % java -jar generator.jar sample.mesh [options] [width] [height] [squareSize/sitesCount] [segmentThickness] [vertexThickness] [relaxation]
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
@@ -35,7 +44,10 @@ mosser@azrael generator %
 
 ### Visualizer
 
-To visualize an existing mesh, go the the `visualizer` directory, and use `java -jar` to run the product. The product take two arguments (so far): the file containing the mesh, and the name of the file to store the visualization (as an SVG image).
+To visualize an existing mesh, go the `visualizer` directory, and use `java -jar` to run the product. The product take two arguments:
+
+- the file containing the mesh
+- the name of the file to store the visualization (as an SVG image).
 
 ```
 mosser@azrael A2 % cd visualizer 

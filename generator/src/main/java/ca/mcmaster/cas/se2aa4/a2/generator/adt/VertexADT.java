@@ -5,8 +5,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import java.util.ArrayList;
 
 public class VertexADT {
-    public double x;
-    public double y;
+    public final double x;
+    public final double y;
     public Color color;
     public Thickness thickness;
     final ArrayList<SegmentADT> segments = new ArrayList<>();
