@@ -2,57 +2,45 @@ package ca.mcmaster.cas.se2aa4.a2.generator.adt;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PolygonADT {
-    private final MeshADT mesh;
-    private final List<SegmentADT> segments;
-    private final List<VertexADT> vertices;
+    final List<PolygonADT> neighbours = new ArrayList<>();
+    final List<SegmentADT> segments;
     final int id;
+    public final VertexADT centroid;
 
     PolygonADT(MeshADT mesh, List<SegmentADT> segments, List<VertexADT> vertices, int id) {
-        this.mesh = mesh;
-        this.segments = segments;
-        this.vertices = vertices;
-        for (SegmentADT segment : segments) {
-            segment.polygons.add(this);
-        }
         this.id = id;
-    }
-
-    // method to calculate centroid of the polygon
-    VertexADT getCentroid() {
+        this.segments = segments;
         double x = 0;
         double y = 0;
         for (VertexADT vertex : vertices) {
             x += vertex.x;
             y += vertex.y;
         }
-        VertexADT vertex= mesh.getVertex(x / segments.size(), y / segments.size());
-        vertex.centroid=true;
-        return vertex;
+        centroid = mesh.getVertex(x / vertices.size(), y / vertices.size());
+        centroid.centroid=true;
     }
 
     // Method to calculate
-
     public Structs.Polygon toPolygon() {
         Structs.Polygon.Builder builder = Structs.Polygon.newBuilder();
-        HashSet<Integer> neighborIds = new HashSet<>();
-        for (SegmentADT segment : segments) {
-            builder.addSegmentIdxs(segment.id);
-
-            for (PolygonADT neighborPolygon : segment.polygons) {
-                if (neighborPolygon != this) {
-                    neighborIds.add(neighborPolygon.id);
-                }
-            }
+        for (PolygonADT neighbour : neighbours) {
+            builder.addNeighborIdxs(neighbour.id);
         }
 
-        builder.addAllNeighborIdxs(neighborIds);
-
-        builder.setCentroidIdx(getCentroid().id);
+        builder.setCentroidIdx(centroid.id);
 
         return builder.build();
+    }
+
+    @Override
+    public String toString() {
+        return "PolygonADT{" +
+                "id=" + id +
+                ", centroid=" + centroid +
+                '}';
     }
 }
