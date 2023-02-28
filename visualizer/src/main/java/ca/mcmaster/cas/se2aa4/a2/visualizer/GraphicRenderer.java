@@ -72,11 +72,12 @@ public class GraphicRenderer {
         int red = Integer.parseInt(raw[0]);
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
+        int alpha = Integer.parseInt(raw[3]);
+        return new Color(red, green, blue, alpha);
     }
 
     // extract thickness
-    // prop [color: [red,blue,yellow]
+    // prop [color: [red,green,blue,alpha]
     //     [Thickness: [int]]
     private int extractThickness(List<Property> properties) {
         String val = getProperty(properties, "thickness");
