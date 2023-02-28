@@ -55,7 +55,6 @@ public class GraphicRenderer {
                 verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx()));
                 pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx());
             }
-
             for(int i=1; i<segmentIds.size(); i++){
                 if(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx()) == pointer){
                     verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV2Idx()));
