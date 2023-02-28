@@ -1,16 +1,15 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,6 +37,40 @@ public class GraphicRenderer {
             canvas.setStroke(stroke);
             Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
             canvas.draw(line);
+        }
+        for (Structs.Polygon polygon : mesh.getPolygonsList()) {
+            canvas.setColor(extractColor(polygon.getPropertiesList()));
+            List<Integer> segmentIds = polygon.getSegmentIdxsList();
+            int[] vertex_x = new int[segmentIds.size()];
+            int[] vertex_y = new int[segmentIds.size()];
+            List<Vertex> verticesList = new ArrayList<>();
+            Vertex pointer;
+            if(mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV1Idx())
+                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())
+                    || mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV2Idx())
+                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())){
+                verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx()));
+                pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx());
+            } else {
+                verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx()));
+                pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx());
+            }
+
+            for(int i=1; i<segmentIds.size(); i++){
+                if(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx()) == pointer){
+                    verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV2Idx()));
+                    pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV2Idx());
+                }else{
+                    verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx()));
+                    pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx());
+                }
+            }
+            for (int i = 0; i < verticesList.size(); i++) {
+                Vertex v = verticesList.get(i);
+                vertex_x[i] = (int) v.getX();
+                vertex_y[i] = (int) v.getY();
+            }
+            canvas.fillPolygon(vertex_x, vertex_y, verticesList.size());
         }
     }
 

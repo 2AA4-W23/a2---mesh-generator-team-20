@@ -10,6 +10,7 @@ public class PolygonADT {
     final List<SegmentADT> segments;
     final int id;
     public final VertexADT centroid;
+    public Color color;
 
     PolygonADT(MeshADT mesh, List<SegmentADT> segments, List<VertexADT> vertices, int id) {
         this.id = id;
@@ -28,7 +29,12 @@ public class PolygonADT {
         for (PolygonADT neighbour : neighbours) {
             builder.addNeighborIdxs(neighbour.id);
         }
-
+        for (SegmentADT segment : segments) {
+            builder.addSegmentIdxs(segment.id);
+        }
+        if (color != null) {
+            builder.addProperties(color.toProperty());
+        }
         builder.setCentroidIdx(centroid.id);
 
         return builder.build();

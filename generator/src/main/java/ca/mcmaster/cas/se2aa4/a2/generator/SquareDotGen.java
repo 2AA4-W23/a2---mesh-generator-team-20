@@ -65,6 +65,7 @@ public class SquareDotGen implements DotGen {
                 PolygonADT polygon = mesh.getPolygon(vertices);
                 polygon.centroid.thickness = new Thickness(vertexThickness);
                 polygon.centroid.color = Color.random();
+                polygon.color = Color.random();
             }
         }
 

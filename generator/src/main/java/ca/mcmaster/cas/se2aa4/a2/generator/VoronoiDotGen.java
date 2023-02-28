@@ -1,9 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.MeshADT;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.SegmentADT;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.Thickness;
-import ca.mcmaster.cas.se2aa4.a2.generator.adt.VertexADT;
+import ca.mcmaster.cas.se2aa4.a2.generator.adt.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
@@ -74,14 +71,17 @@ public class VoronoiDotGen implements DotGen {
                 Coordinate coordinate = polygonCoordinates[j];
                 vertices.add(mesh.getVertex(coordinate.x, coordinate.y));
                 mesh.getVertex(coordinate.x, coordinate.y).thickness = new Thickness(vertexThickness);
+                mesh.getVertex(coordinate.x, coordinate.y).color = Color.random();
             }
 
             for (int j = 0; j < vertices.size(); j++) {
                 SegmentADT segmentADT = mesh.getSegment(vertices.get(j), vertices.get((j + 1) % vertices.size()));
                 segmentADT.thickness = new Thickness(segmentThickness);
+                segmentADT.color = Color.average(segmentADT.getStart().color, segmentADT.getEnd().color);
             }
 
-            mesh.getPolygon(vertices);
+            PolygonADT polygonADT = mesh.getPolygon(vertices);
+            polygonADT.color = Color.random();
         }
         return mesh.toMesh();
     }

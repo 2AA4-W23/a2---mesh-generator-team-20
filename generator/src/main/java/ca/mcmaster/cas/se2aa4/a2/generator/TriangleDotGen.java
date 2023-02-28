@@ -47,11 +47,6 @@ public class TriangleDotGen implements DotGen {
                 c.thickness = new Thickness(vertexThickness);
                 d.thickness = new Thickness(vertexThickness);
 
-                ArrayList<VertexADT> vertices = new ArrayList<>(4);
-                vertices.add(a);
-                vertices.add(b);
-                vertices.add(d);
-
                 // Segment: line change thickness
                 SegmentADT segmentAB = mesh.getSegment(a, b);
                 SegmentADT segmentBC = mesh.getSegment(b, c);
@@ -62,25 +57,19 @@ public class TriangleDotGen implements DotGen {
                 segmentCD.thickness = new Thickness(segmentThickness);
                 segmentDA.thickness = new Thickness(segmentThickness);
 
-                mesh.getPolygon(vertices);
+                ArrayList<VertexADT> vertices = new ArrayList<>(4);
+                vertices.add(a);
+                vertices.add(b);
+                vertices.add(d);
+                PolygonADT polygon = mesh.getPolygon(vertices);
+                polygon.color = Color.random();
 
                 ArrayList<VertexADT> vertices2 = new ArrayList<>(4);
                 vertices2.add(c);
                 vertices2.add(b);
                 vertices2.add(d);
-                mesh.getPolygon(vertices2);
-
-                ArrayList<VertexADT> vertices3 = new ArrayList<>(4);
-                vertices3.add(a);
-                vertices3.add(b);
-                vertices3.add(c);
-                mesh.getPolygon(vertices3);
-
-                ArrayList<VertexADT> vertices4 = new ArrayList<>(4);
-                vertices4.add(a);
-                vertices4.add(d);
-                vertices4.add(c);
-                mesh.getPolygon(vertices4);
+                PolygonADT polygon2 = mesh.getPolygon(vertices2);
+                polygon2.color = Color.random();
             }
         }
 
