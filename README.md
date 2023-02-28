@@ -26,7 +26,7 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 arguments:
 
 - the name of the file to store the mesh
-- the type of the mesh
+- the type of the mesh (-g for grid, -t for triangles, -v for voronoi)
 - the width of the mesh (in px)
 - the height of the mesh (in px)
 - the number of sites (for the Voronoi mesh) or the size of the squares (for other meshes)
@@ -36,13 +36,24 @@ arguments:
 
 ```
 mosser@azrael A2 % cd generator 
-                          # run in production mode
+# run in production mode
 mosser@azrael generator % java -jar generator.jar sample.mesh [options] [width] [height] [squareSize/sitesCount] [segmentThickness] [vertexThickness] [relaxation]
-                          # run in debug mode 
+# run in debug mode 
 mosser@azrael generator % mvn -q exec:java -Denv=debug -Dexec.args="sample.mesh [options] [width] [height] [squareSize/sitesCount] [segmentThickness] [vertexThickness] [relaxation]"
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
+```
+
+#### Generator Examples
+
+```
+# Create grid meshes with 500px width, 500px height, squareSize of 50px, segmentThickness of 1px and vertexThickness of 1px:
+mosser@azrael generator % java -jar generator.jar sample.mesh -g 500 500 50 1 1
+# Create triangle meshes with 500px width, 500px height, squareSize of 50px, segmentThickness of 1px and vertexThickness of 1px:
+mosser@azrael generator % java -jar generator.jar sample.mesh -t 500 500 50 1 1
+# Create Voronoi meshes with 500px width, 500px height, 100 sites, segmentThickness of 1px, vertexThickness of 1px and 10 relaxation steps:
+mosser@azrael generator % java -jar generator.jar sample.mesh -v 500 500 100 1 1 10
 ```
 
 ### Visualizer
@@ -55,19 +66,21 @@ two arguments:
 
 ```
 mosser@azrael A2 % cd visualizer 
-                           # run in production mode
+# run in production mode
 mosser@azrael visualizer % java -jar visualizer.jar ../generator/sample.mesh sample.svg
-                           # run in debug mode
+# run in debug mode
 mosser@azrael visualizer % mvn -q exec:java -Denv=debug -Dexec.args="../generator/sample.mesh sample.svg"
 mosser@azrael visualizer % ls -lh sample.svg
 -rw-r--r--  1 mosser  staff    56K 29 Jan 10:53 sample.svg
 mosser@azrael visualizer %
 ```
 
-To viualize the SVG file:
+In the debug mode, the visualizer will show the centroids in red and segments in black.
+
+To visualize the SVG file:
 
 - Open it with a web browser
-- Convert it into something else with tool slike `rsvg-convert`
+- Convert it into something else with tools like `rsvg-convert`
 
 ## How to contribute to the project
 
@@ -83,34 +96,21 @@ definition of done for your features:
 - The feature is tested
 - The feature is documented
 
-### Step2 demonstrate:
-In step2 we created several adt to produce full meshes. The user can adjust thickness, color of the grid mesh. By manually active Visualization mode, the user can view the polygons in black, centroids in red, and neighborhood relationships in light grey
-
 ### Product Backlog
 | MVP? | Id  | Feature                                                        | Status | Started  | Delivered |
 |------|-----|----------------------------------------------------------------|--------|----------|-----------|
-|      | F01 | Change author name                                             | D      | 01/31/23 | 01/31/23  |
-| yes  | F02 | Part 1 Report                                                  | D      | 02/08/23 | 02/08/23  |
-| yes  | F03 | 1.3 b                                                          | D      | 02/08/23 | 02/08/23  |
-| yes  | F04 | 1.3 c                                                          | D      | 02/08/23 | 02/08/23  |
+| yes  | F03 | Color segments the average color of its vertices               | D      | 02/08/23 | 02/08/23  |
+| yes  | F04 | Draw segments                                                  | D      | 02/08/23 | 02/08/23  |
 |      | F05 | Create mesh ADT & Use mesh ADT in generator                    | D      | 02/10/23 | 02/10/23  |
-|      | F06 | Part 2 Report                                                  | D      | 02/10/23 | 02/10/23  |
-| yes  | F07 | Add thickness to segments and polygons                         | D      | 02/13/23 | 02/13/23  |
-| yes  | F08 | Add colors to vertices, segments and polygons                  | D      | 02/13/23 | 02/13/23  |
-| yes  | F09 | Add centroid to polygons                                       | D      | 02/22/23 | 02/22/23  |
+|      | F07 | Add thickness to segments and polygons                         | D      | 02/13/23 | 02/13/23  |
+|      | F08 | Add colors to vertices, segments and polygons                  | D      | 02/13/23 | 02/13/23  |
+|      | F09 | Add centroid to polygons                                       | D      | 02/22/23 | 02/22/23  |
 |      | F10 | Fix part 1 Debts                                               | D      | 02/22/23 | 02/22/23  |
-| yes  | F11 | Generate voronoi irregular mesh                                | D      | 02/22/23 | 02/22/23  |
-| yes  | F12 | Create CLI                                                     | D      | 02/22/23 | 02/22/23  |
-|      | F13 | Create uml for part 2                                          | D      | 02/22/23 | 02/22/23  |
-|      | F14 | Create uml for part 3                                          | D      | 02/25/23 | 02/25/23  |
-|      | F15 | Report: Part Reflection                                        | D      | 02/25/23 | 02/25/23  |
-| yes  | F16 | Create readme file to demonstrate part 3                       | D      | 02/25/23 | 02/25/23  |
-| yes  | F17 | Create debug visualization mode                                | D      | 02/25/23 | 02/25/23  |
-| yes  | F18 | Provide in the Readme file a scenario to demonstrate this part | D      | 02/25/23 | 02/25/23  |
+|      | F11 | Generate voronoi irregular mesh                                | D      | 02/22/23 | 02/22/23  |
+|      | F12 | Create CLI                                                     | D      | 02/22/23 | 02/22/23  |
+|      | F17 | Create debug visualization mode                                | D      | 02/25/23 | 02/25/23  |
 |      | F19 | Part 3 report                                                  | D      | 02/25/23 | 02/25/23  |
-| yes  | F20 | Create tests                                                   | D      | 02/25/23 | 02/25/23  |
 |      | F21 | Add logging                                                    | D      | 02/27/23 | 02/27/23  |
-|      | F22 | Create readme file to demonstrate part 3                       | D      | 02/27/23 | 02/27/23  |
 |      | F23 | Generate voronoi irregular mesh                                | D      | 02/27/23 | 02/27/23  |
 
 
