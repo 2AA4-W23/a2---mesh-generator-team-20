@@ -3,8 +3,12 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a3.island.IslandGenerator;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevation;
+import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import org.apache.commons.cli.Option;
 
 import java.io.FileOutputStream;
@@ -21,10 +25,10 @@ public class Main {
     private static final Option ELEVATION = new Option("e", "altitude", false, "");
     private static final Option LAKES = new Option("l", "lakes", false, "");
     private static final Option RIVERS = new Option("r", "rivers", false, "");
-//    private static final Option RIVERFLOW = new Option("", "altitude", false, "");
+    //    private static final Option RIVERFLOW = new Option("", "altitude", false, "");
     private static final Option AQUIFERS = new Option("a", "aquifers", false, "");
     private static final Option SOILABSORPTION = new Option("s", "soil", false, "");
-//    private static final Option BIOMES = new Option("e", "altitude", false, "");
+    //    private static final Option BIOMES = new Option("e", "altitude", false, "");
     private static final Option WHITTAKERDIAGRAMS = new Option("w", "biomes", false, "");
     private static final Option REPRODUCIBILITY = new Option("p", "seed", false, "");
 
@@ -73,9 +77,13 @@ public class Main {
             width = (Double.compare(width, v.getX()) < 0 ? v.getX() : width);
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
+        ElevationProvider elevationProvider = new MountainElevation(width, height, 1);
+        ShapeProvider shapeProvider = new CircleShape(width, height, width / 4);
+        LakeProvider lakeProvider = new CircleLakeProvider(width, height, elevationProvider, shapeProvider, 4);
         ColorProvider colorProvider = new NormalIslandColorProvider(
-                new MountainElevation(width, height, 1),
-                new CircleShape(width, height, width / 4)
+                elevationProvider,
+                shapeProvider,
+                lakeProvider
         );
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
