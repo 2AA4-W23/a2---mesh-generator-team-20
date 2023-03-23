@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -13,6 +14,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,40 +29,73 @@ public class GraphicRenderer {
 
         List<Vertex> vertices = mesh.getVerticesList();
         // draw all vertices
-        for (Vertex v : vertices) {
-            logger.trace("drawing vertex: {}", v);
-            double centre_x = v.getX() - (extractThickness(v.getPropertiesList()) / 2.0d);
-            double centre_y = v.getY() - (extractThickness(v.getPropertiesList()) / 2.0d);
-
-            // set centroid color to red if in debug mode
-            if (isDebug && extractIsCentroid(v.getPropertiesList())) {
-                canvas.setColor(new Color(255, 0, 0));
+//        for (Vertex v : vertices) {
+//            logger.trace("drawing vertex: {}", v);
+//            double centre_x = v.getX() - (extractThickness(v.getPropertiesList()) / 2.0d);
+//            double centre_y = v.getY() - (extractThickness(v.getPropertiesList()) / 2.0d);
+//
+//            // set centroid color to red if in debug mode
+//            if (isDebug && extractIsCentroid(v.getPropertiesList())) {
+//                canvas.setColor(new Color(255, 0, 0));
+//            } else {
+//                canvas.setColor(extractColor(v.getPropertiesList()));
+//            }
+//
+//            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, extractThickness(v.getPropertiesList()), extractThickness(v.getPropertiesList()));
+//            canvas.fill(point);
+//        }
+//
+//        // draw all segments
+//        for (Segment segment : mesh.getSegmentsList()) {
+//            logger.trace("drawing segment: {}", segment);
+//            Vertex a = vertices.get(segment.getV1Idx());
+//            Vertex b = vertices.get(segment.getV2Idx());
+//
+//            // set segment color to black if in debug mode
+//            if (isDebug) {
+//                canvas.setColor(new Color(0, 0, 0));
+//            } else {
+//                canvas.setColor(extractColor(segment.getPropertiesList()));
+//            }
+//
+//            // thickness
+//            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
+//            canvas.setStroke(stroke);
+//            Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
+//            canvas.draw(line);
+//        }
+        for (Structs.Polygon polygon : mesh.getPolygonsList()) {
+            canvas.setColor(extractColor(polygon.getPropertiesList()));
+            List<Integer> segmentIds = polygon.getSegmentIdxsList();
+            int[] vertex_x = new int[segmentIds.size()];
+            int[] vertex_y = new int[segmentIds.size()];
+            List<Vertex> verticesList = new ArrayList<>();
+            Vertex pointer;
+            if(mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV1Idx())
+                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())
+                    || mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV2Idx())
+                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())){
+                verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx()));
+                pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx());
             } else {
-                canvas.setColor(extractColor(v.getPropertiesList()));
+                verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx()));
+                pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV2Idx());
             }
-
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, extractThickness(v.getPropertiesList()), extractThickness(v.getPropertiesList()));
-            canvas.fill(point);
-        }
-
-        // draw all segments
-        for (Segment segment : mesh.getSegmentsList()) {
-            logger.trace("drawing segment: {}", segment);
-            Vertex a = vertices.get(segment.getV1Idx());
-            Vertex b = vertices.get(segment.getV2Idx());
-
-            // set segment color to black if in debug mode
-            if (isDebug) {
-                canvas.setColor(new Color(0, 0, 0));
-            } else {
-                canvas.setColor(extractColor(segment.getPropertiesList()));
+            for(int i=1; i<segmentIds.size(); i++){
+                if(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx()) == pointer){
+                    verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV2Idx()));
+                    pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV2Idx());
+                }else{
+                    verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx()));
+                    pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(i)).getV1Idx());
+                }
             }
-
-            // thickness
-            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
-            canvas.setStroke(stroke);
-            Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
-            canvas.draw(line);
+            for (int i = 0; i < verticesList.size(); i++) {
+                Vertex v = verticesList.get(i);
+                vertex_x[i] = (int) v.getX();
+                vertex_y[i] = (int) v.getY();
+            }
+            canvas.fillPolygon(vertex_x, vertex_y, verticesList.size());
         }
     }
 
