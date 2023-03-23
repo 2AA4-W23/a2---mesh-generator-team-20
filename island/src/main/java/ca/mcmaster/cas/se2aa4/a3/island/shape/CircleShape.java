@@ -6,8 +6,8 @@ public class CircleShape implements ShapeProvider {
     private final double radius;
 
     public CircleShape(double width, double height, double radius) {
-        this.x = width/2;
-        this.y = height/2;
+        this.x = width / 2;
+        this.y = height / 2;
         this.radius = radius;
     }
 

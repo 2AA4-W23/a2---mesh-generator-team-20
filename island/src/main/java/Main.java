@@ -1,8 +1,14 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a3.island.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevation;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import org.apache.commons.cli.Option;
 
 import java.awt.*;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -41,5 +47,20 @@ public class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        Structs.Mesh mesh = new MeshFactory().read("in.mesh");
+        double width = Double.MIN_VALUE;
+        double height = Double.MIN_VALUE;
+        for (Structs.Vertex v : mesh.getVerticesList()) {
+            width = (Double.compare(width, v.getX()) < 0 ? v.getX() : width);
+            height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
+        }
+        ColorProvider colorProvider = new NormalIslandColorProvider(
+                new MountainElevation(width,height,1),
+                new CircleShape(width, height, width/4)
+        );
+        IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
+        mesh = islandGenerator.generate(mesh);
+        mesh.writeTo(new FileOutputStream("out.mesh"));
     }
 }

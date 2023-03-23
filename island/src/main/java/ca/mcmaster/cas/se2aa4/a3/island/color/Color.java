@@ -3,16 +3,30 @@ package ca.mcmaster.cas.se2aa4.a3.island.color;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 public class Color {
-    final double red;
-    final double green;
-    final double blue;
+    final int red;
+    final int green;
+    final int blue;
     public int alpha;
 
-    public Color(double red, double green, double blue, int alpha) {
+    public Color(int red, int green, int blue, int alpha) {
+        // clamp values from 0-255
+        red = Math.max(0, Math.min(255, red));
+        green = Math.max(0, Math.min(255, green));
+        blue = Math.max(0, Math.min(255, blue));
+        alpha = Math.max(0, Math.min(255, alpha));
+
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
+    }
+
+    public Color(int red, int green, int blue) {
+        this(red, green, blue, 255);
+    }
+
+    public Color(int gray) {
+        this(gray, gray, gray);
     }
 
     public String toString() {
