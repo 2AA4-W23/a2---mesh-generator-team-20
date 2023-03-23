@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.color;
 
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
+
 public interface ColorProvider {
-    Color getColor(double x, double y);
+    Color getColor(Coordinate coordinate);
 }

@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.shape;
 
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
+
 public class CircleShape implements ShapeProvider {
     private final double x;
     private final double y;
@@ -12,7 +14,7 @@ public class CircleShape implements ShapeProvider {
     }
 
     @Override
-    public boolean contains(double x, double y) {
-        return Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2) <= Math.pow(radius, 2);
+    public boolean contains(Coordinate coordinate) {
+        return Math.pow(coordinate.x - this.x, 2) + Math.pow(coordinate.y - this.y, 2) <= Math.pow(radius, 2);
     }
 }

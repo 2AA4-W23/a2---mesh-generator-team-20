@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a3.island.color.Color;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class IslandGenerator {
         for (Structs.Polygon polygon : mesh.getPolygonsList()) {
             int centroidId = polygon.getCentroidIdx();
             Structs.Vertex centroid = vertices.get(centroidId);
-            Color color = colorProvider.getColor(centroid.getX(), centroid.getY());
+            Color color = colorProvider.getColor(Coordinate.fromVertex(centroid));
             Structs.Polygon.Builder polygonBuilder = Structs.Polygon.newBuilder(polygon);
             polygonBuilder.clearProperties();
             polygonBuilder.addProperties(color.toProperty());
