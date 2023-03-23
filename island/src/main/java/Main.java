@@ -7,12 +7,12 @@ import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevation;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import org.apache.commons.cli.Option;
 
-import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.commons.cli.*;
+
 public class Main {
     private static final Option INPUTMESH = new Option("i", "inputmesh", false, "create a grid mesh");
     private static final Option LAGOONMESH = new Option("o", "lagoonmesh", false, "create an irregular mesh");
@@ -35,20 +35,20 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
 
-        try {
-            CommandLine cmd = parser.parse(options, args);
+//        try {
+//            CommandLine cmd = parser.parse(options, args);
+//
+//            if (cmd.getArgList().size() < 1) {
+//                printHelp(options);
+//                System.exit(-1);
+//            }
+//
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
-            if (cmd.getArgList().size() < 1) {
-                printHelp(options);
-                System.exit(-1);
-            }
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Structs.Mesh mesh = new MeshFactory().read("in.mesh");
+        Structs.Mesh mesh = new MeshFactory().read("island/in.mesh");
         double width = Double.MIN_VALUE;
         double height = Double.MIN_VALUE;
         for (Structs.Vertex v : mesh.getVerticesList()) {
@@ -56,11 +56,11 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
         ColorProvider colorProvider = new NormalIslandColorProvider(
-                new MountainElevation(width,height,1),
-                new CircleShape(width, height, width/4)
+                new MountainElevation(width, height, 1),
+                new CircleShape(width, height, width / 4)
         );
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
-        mesh.writeTo(new FileOutputStream("out.mesh"));
+        mesh.writeTo(new FileOutputStream("island/out.mesh"));
     }
 }
