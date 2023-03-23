@@ -6,10 +6,10 @@ public class MountainElevation implements ElevationProvider {
     private final double radius;
     private final double height;
 
-    MountainElevation(double centerX, double centerY, double radius, double height) {
-        this.centerX = centerX;
-        this.centerY = centerY;
-        this.radius = radius;
+    public MountainElevation(double width, double height, double mountainHeight) {
+        this.centerX = width / 2;
+        this.centerY = height / 2;
+        this.radius = width / 3 * 2;
         this.height = height;
     }
 
