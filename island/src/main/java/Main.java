@@ -70,7 +70,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        Structs.Mesh mesh = new MeshFactory().read("generator/sample.mesh");
+        Structs.Mesh mesh = new MeshFactory().read("../generator/sample.mesh");
         double width = Double.MIN_VALUE;
         double height = Double.MIN_VALUE;
         for (Structs.Vertex v : mesh.getVerticesList()) {
@@ -87,6 +87,6 @@ public class Main {
         );
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
-        mesh.writeTo(new FileOutputStream("island/out.mesh"));
+        mesh.writeTo(new FileOutputStream("out.mesh"));
     }
 }
