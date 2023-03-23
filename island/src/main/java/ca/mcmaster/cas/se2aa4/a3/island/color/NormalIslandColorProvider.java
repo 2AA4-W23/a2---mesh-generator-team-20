@@ -26,7 +26,7 @@ public class NormalIslandColorProvider implements ColorProvider {
                 return new Color((int) (elevation * 255));
             }
         } else {
-            return new Color(0, 0, 255);
+            return new Color(150, 210, 255);
         }
     }
 }
