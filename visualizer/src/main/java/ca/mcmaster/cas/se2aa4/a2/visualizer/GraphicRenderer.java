@@ -71,10 +71,10 @@ public class GraphicRenderer {
             int[] vertex_y = new int[segmentIds.size()];
             List<Vertex> verticesList = new ArrayList<>();
             Vertex pointer;
-            if (mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV1Idx())
-                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())
-                    || mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV2Idx())
-                    == mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())) {
+            if (mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV1Idx()) ==
+                    mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx()) ||
+                    mesh.getVertices(mesh.getSegments(segmentIds.get(1)).getV2Idx()) ==
+                            mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx())) {
                 verticesList.add(mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx()));
                 pointer = mesh.getVertices(mesh.getSegments(segmentIds.get(0)).getV1Idx());
             } else {

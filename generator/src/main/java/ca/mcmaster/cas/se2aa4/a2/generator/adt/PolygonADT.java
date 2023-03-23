@@ -32,6 +32,9 @@ public class PolygonADT {
         }
 
         builder.setCentroidIdx(centroid.id);
+        for (SegmentADT segment : this.segments) {
+            builder.addSegmentIdxs(segment.id);
+        }
 
         return builder.build();
     }

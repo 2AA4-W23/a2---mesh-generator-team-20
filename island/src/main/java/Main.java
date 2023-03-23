@@ -66,7 +66,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        Structs.Mesh mesh = new MeshFactory().read("island/in.mesh");
+        Structs.Mesh mesh = new MeshFactory().read("generator/sample.mesh");
         double width = Double.MIN_VALUE;
         double height = Double.MIN_VALUE;
         for (Structs.Vertex v : mesh.getVerticesList()) {
