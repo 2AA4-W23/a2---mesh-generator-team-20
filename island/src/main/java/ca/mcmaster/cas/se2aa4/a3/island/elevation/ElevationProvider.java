@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.elevation;
 
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
+
 public interface ElevationProvider {
-    double getElevation(double x, double y);
+    double getElevation(Coordinate coordinate);
 }

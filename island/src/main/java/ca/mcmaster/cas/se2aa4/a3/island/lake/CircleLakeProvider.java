@@ -21,16 +21,16 @@ public class CircleLakeProvider implements LakeProvider, ElevationProvider {
         while (lakes.size() < lakeCount) {
             double x = Math.random() * width;
             double y = Math.random() * height;
-            if (shapeProvider.contains(x, y)) {
+            if (shapeProvider.contains(new Coordinate(x, y))) {
                 lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 8)));
             }
         }
     }
 
-    public boolean isLake(double x, double y) {
+    public boolean isLake(Coordinate coordinate) {
         for (Lake lake : lakes) {
-            double dx = x - lake.center.x;
-            double dy = y - lake.center.y;
+            double dx = coordinate.x - lake.center.x;
+            double dy = coordinate.y - lake.center.y;
             double distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < lake.radius) {
                 return true;
@@ -39,9 +39,9 @@ public class CircleLakeProvider implements LakeProvider, ElevationProvider {
         return false;
     }
 
-    public double getElevation(double x, double y) {
-        double oldElevation = elevationProvider.getElevation(x, y);
-        if (isLake(x, y)) {
+    public double getElevation(Coordinate coordinate) {
+        double oldElevation = elevationProvider.getElevation(coordinate);
+        if (isLake(coordinate)) {
             return oldElevation * 0.7;
         } else {
             return oldElevation;
