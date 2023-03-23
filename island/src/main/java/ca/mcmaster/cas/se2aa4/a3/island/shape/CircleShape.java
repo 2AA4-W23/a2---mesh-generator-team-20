@@ -5,9 +5,9 @@ public class CircleShape implements ShapeProvider {
     private final double y;
     private final double radius;
 
-    public CircleShape(double x, double y, double radius) {
-        this.x = x;
-        this.y = y;
+    public CircleShape(double width, double height, double radius) {
+        this.x = width/2;
+        this.y = height/2;
         this.radius = radius;
     }
 
