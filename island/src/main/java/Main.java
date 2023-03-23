@@ -14,9 +14,19 @@ import java.io.PrintWriter;
 import org.apache.commons.cli.*;
 
 public class Main {
-    private static final Option INPUTMESH = new Option("i", "inputmesh", false, "create a grid mesh");
-    private static final Option LAGOONMESH = new Option("o", "lagoonmesh", false, "create an irregular mesh");
-    private static final Option LAGOON = new Option("m", "lagoon", false, "create an triangle mesh");
+    private static final Option INPUTMESH = new Option("i", "inputMesh", false, "");
+    private static final Option LAGOONMESH = new Option("o", "lagoonMesh", false, "");
+    private static final Option LAGOON = new Option("m", "lagoon", false, "");
+    private static final Option SHAPE = new Option("s", "shape", false, "");
+    private static final Option ELEVATION = new Option("e", "altitude", false, "");
+    private static final Option LAKES = new Option("l", "lakes", false, "");
+    private static final Option RIVERS = new Option("r", "rivers", false, "");
+//    private static final Option RIVERFLOW = new Option("", "altitude", false, "");
+    private static final Option AQUIFERS = new Option("a", "aquifers", false, "");
+    private static final Option SOILABSORPTION = new Option("s", "soil", false, "");
+//    private static final Option BIOMES = new Option("e", "altitude", false, "");
+    private static final Option WHITTAKERDIAGRAMS = new Option("w", "biomes", false, "");
+    private static final Option REPRODUCIBILITY = new Option("p", "seed", false, "");
 
     private static void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
@@ -32,6 +42,14 @@ public class Main {
         options.addOption(INPUTMESH);
         options.addOption(LAGOONMESH);
         options.addOption(LAGOON);
+        options.addOption(SHAPE);
+        options.addOption(ELEVATION);
+        options.addOption(LAKES);
+        options.addOption(RIVERS);
+        options.addOption(AQUIFERS);
+        options.addOption(SOILABSORPTION);
+        options.addOption(WHITTAKERDIAGRAMS);
+        options.addOption(REPRODUCIBILITY);
 
         CommandLineParser parser = new DefaultParser();
 
