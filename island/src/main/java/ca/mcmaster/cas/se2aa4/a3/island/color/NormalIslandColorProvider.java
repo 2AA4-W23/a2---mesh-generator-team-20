@@ -16,7 +16,7 @@ public class NormalIslandColorProvider implements ColorProvider {
         boolean isLand = shapeProvider.contains(x, y);
         if (isLand) {
             double elevation = elevationProvider.getElevation(x, y);
-            return new Color(0, (int) (elevation * 255), 0);
+            return new Color((int) (elevation * 255));
         } else {
             return new Color(0, 0, 255);
         }
