@@ -26,7 +26,7 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 arguments:
 
 - the name of the file to store the mesh
-- the type of the mesh (-g for grid, -t for triangles, -v for voronoi)
+- the type of the mesh (-g for grid, -t for triangles, -i for voronoi)
 - the width of the mesh (in px)
 - the height of the mesh (in px)
 - the number of sites (for the Voronoi mesh) or the size of the squares (for other meshes)
@@ -53,7 +53,7 @@ mosser@azrael generator % java -jar generator.jar sample.mesh -g 500 500 50 1 1
 # Create triangle meshes with 500px width, 500px height, squareSize of 50px, segmentThickness of 1px and vertexThickness of 1px:
 mosser@azrael generator % java -jar generator.jar sample.mesh -t 500 500 50 1 1
 # Create Voronoi meshes with 500px width, 500px height, 100 sites, segmentThickness of 1px, vertexThickness of 1px and 10 relaxation steps:
-mosser@azrael generator % java -jar generator.jar sample.mesh -v 500 500 100 1 1 10
+mosser@azrael generator % java -jar generator.jar sample.mesh -i 500 500 100 1 1 10
 ```
 
 ### Visualizer
