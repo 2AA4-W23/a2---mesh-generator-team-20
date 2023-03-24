@@ -1,5 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.elevation;
 
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
+
 public class MountainElevation implements ElevationProvider {
     private final double centerX;
     private final double centerY;
@@ -13,8 +15,8 @@ public class MountainElevation implements ElevationProvider {
         this.mountainHeight = mountainHeight;
     }
 
-    public double getElevation(double x, double y) {
-        double distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    public double getElevation(Coordinate coordinate) {
+        double distance = Math.sqrt(Math.pow(coordinate.x - centerX, 2) + Math.pow(coordinate.y - centerY, 2));
         if (distance > radius) {
             return 0;
         }
