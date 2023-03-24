@@ -45,25 +45,7 @@ public class GraphicRenderer {
             canvas.fill(point);
         }
 
-        // draw all segments
-        for (Segment segment : mesh.getSegmentsList()) {
-            logger.trace("drawing segment: {}", segment);
-            Vertex a = vertices.get(segment.getV1Idx());
-            Vertex b = vertices.get(segment.getV2Idx());
 
-            // set segment color to black if in debug mode
-            if (isDebug) {
-                canvas.setColor(new Color(0, 0, 0));
-            } else {
-                canvas.setColor(extractColor(segment.getPropertiesList()));
-            }
-
-            // thickness
-            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
-            canvas.setStroke(stroke);
-            Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
-            canvas.draw(line);
-        }
         for (Structs.Polygon polygon : mesh.getPolygonsList()) {
             canvas.setColor(extractColor(polygon.getPropertiesList()));
             List<Integer> segmentIds = polygon.getSegmentIdxsList();
@@ -96,6 +78,26 @@ public class GraphicRenderer {
                 vertex_y[i] = (int) v.getY();
             }
             canvas.fillPolygon(vertex_x, vertex_y, verticesList.size());
+        }
+
+        // draw all segments
+        for (Segment segment : mesh.getSegmentsList()) {
+            logger.trace("drawing segment: {}", segment);
+            Vertex a = vertices.get(segment.getV1Idx());
+            Vertex b = vertices.get(segment.getV2Idx());
+
+            // set segment color to black if in debug mode
+            if (isDebug) {
+                canvas.setColor(new Color(0, 0, 0));
+            } else {
+                canvas.setColor(extractColor(segment.getPropertiesList()));
+            }
+
+            // thickness
+            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
+            canvas.setStroke(stroke);
+            Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
+            canvas.draw(line);
         }
     }
 

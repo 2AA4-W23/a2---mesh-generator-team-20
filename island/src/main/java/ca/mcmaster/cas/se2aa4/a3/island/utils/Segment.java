@@ -1,5 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a3.island.utils;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
+import java.util.List;
 import java.util.Objects;
 
 public class Segment {
@@ -29,5 +32,9 @@ public class Segment {
     @Override
     public int hashCode() {
         return Objects.hash(start, end) + Objects.hash(end, start);
+    }
+
+    static public Segment fromSegment(Structs.Segment segment, List<Structs.Vertex> vertices) {
+        return new Segment(Coordinate.fromVertex(vertices.get(segment.getV1Idx())), Coordinate.fromVertex(vertices.get(segment.getV2Idx())));
     }
 }
