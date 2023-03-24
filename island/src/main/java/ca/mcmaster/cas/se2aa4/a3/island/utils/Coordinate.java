@@ -13,6 +13,10 @@ public class Coordinate {
         this.y = y;
     }
 
+    public boolean approxEquals(Coordinate other) {
+        return Math.abs(x - other.x) < 0.01 && Math.abs(y - other.y) < 0.01;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

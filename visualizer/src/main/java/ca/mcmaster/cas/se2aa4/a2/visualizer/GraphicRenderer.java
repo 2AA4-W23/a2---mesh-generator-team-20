@@ -94,7 +94,7 @@ public class GraphicRenderer {
             }
 
             // thickness
-            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()));
+            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
             canvas.setStroke(stroke);
             Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
             canvas.draw(line);

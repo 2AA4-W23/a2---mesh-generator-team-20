@@ -37,7 +37,7 @@ public class NormalIslandColorProvider implements ColorProvider {
 
     public Color getSegmentColor(Segment segment) {
         if (riverProvider.isRiver(segment) > 0) {
-            return new Color(0, 0, 255);
+            return new Color(150, 210, 255);
         }
         return new Color(0, 0, 0, 0);
     }
