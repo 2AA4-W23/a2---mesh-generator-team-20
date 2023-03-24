@@ -89,7 +89,7 @@ public class Main {
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
-        RiverProvider riverProvider = new BasicRiverProvider(segments, shapeProvider, elevationProvider, 0.5);
+        RiverProvider riverProvider = new BasicRiverProvider(segments, shapeProvider, elevationProvider, 0.3);
         ColorProvider colorProvider = new NormalIslandColorProvider(
                 elevationProvider,
                 shapeProvider,

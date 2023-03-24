@@ -10,30 +10,27 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BasicRiverProvider implements RiverProvider {
-    private final HashMap<Segment, Integer> rivers = new HashMap<>();
+    private final HashMap<Segment, Double> rivers = new HashMap<>();
 
     public BasicRiverProvider(List<Segment> segments, ShapeProvider shapeProvider, ElevationProvider elevationProvider, double density) {
         for (Segment segment : segments) {
             boolean nextToSea = shapeProvider.contains(segment.start) && !shapeProvider.contains(segment.end) || shapeProvider.contains(segment.end) && !shapeProvider.contains(segment.start);
             if (nextToSea && Math.random() < density) {
-                rivers.put(segment, 4);
+                rivers.put(segment, 4.0);
             }
         }
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             List<Segment> riverSegments = new ArrayList<>(rivers.keySet());
             for (Segment riverSegment : riverSegments) {
-                int thickness = rivers.get(riverSegment);
-                if (thickness == 4) {
-                    continue;
-                }
+                double thickness = rivers.get(riverSegment);
                 boolean startConnected = false;
                 boolean endConnected = false;
                 for (Segment otherSegment : riverSegments) {
                     if (otherSegment != riverSegment) {
-                        if (riverSegment.start.equals(otherSegment.start) || riverSegment.start.equals(otherSegment.end)) {
+                        if (!shapeProvider.contains(riverSegment.start) || riverSegment.start.equals(otherSegment.start) || riverSegment.start.equals(otherSegment.end)) {
                             startConnected = true;
-                        } else if (riverSegment.end.equals(otherSegment.start) || riverSegment.end.equals(otherSegment.end)) {
+                        } else if (!shapeProvider.contains(riverSegment.end) || riverSegment.end.equals(otherSegment.start) || riverSegment.end.equals(otherSegment.end)) {
                             endConnected = true;
                         }
                     }
@@ -46,9 +43,9 @@ public class BasicRiverProvider implements RiverProvider {
                 double newRiverStartElevation = elevationProvider.getElevation(newRiverStart);
                 Coordinate newRiverEnd = null;
                 double newRiverEndElevation = Double.MIN_VALUE;
-                for (Segment otherSegment : riverSegments) {
-                    if (otherSegment != riverSegment && (otherSegment.start == newRiverStart || otherSegment.end == newRiverStart)) {
-                        Coordinate otherEnd = otherSegment.start == newRiverStart ? otherSegment.end : otherSegment.start;
+                for (Segment potentialRiverSegment : segments) {
+                    if (potentialRiverSegment != riverSegment && (potentialRiverSegment.start.approxEquals(newRiverStart) || potentialRiverSegment.end.approxEquals(newRiverStart))) {
+                        Coordinate otherEnd = potentialRiverSegment.start.approxEquals(newRiverStart) ? potentialRiverSegment.end : potentialRiverSegment.start;
                         double otherEndElevation = elevationProvider.getElevation(otherEnd);
                         if (otherEndElevation > newRiverEndElevation) {
                             newRiverEnd = otherEnd;
@@ -58,13 +55,13 @@ public class BasicRiverProvider implements RiverProvider {
                 }
 
                 if (newRiverEnd != null && newRiverEndElevation > newRiverStartElevation) {
-                    rivers.put(new Segment(newRiverStart, newRiverEnd), thickness - 1);
+                    rivers.put(new Segment(newRiverStart, newRiverEnd), thickness - 0.5);
                 }
             }
         }
     }
 
     public int isRiver(Segment segment) {
-        return rivers.getOrDefault(segment, 0);
+        return (int) (double) rivers.getOrDefault(segment, 0.0);
     }
 }
