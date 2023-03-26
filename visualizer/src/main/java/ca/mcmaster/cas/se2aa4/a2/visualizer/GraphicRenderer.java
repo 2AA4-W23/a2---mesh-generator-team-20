@@ -16,13 +16,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class GraphicRenderer {
     private static final Logger logger = LogManager.getLogger(GraphicRenderer.class);
 
     public void render(Mesh mesh, Graphics2D canvas) {
-        boolean isDebug = System.getProperty("env").equals("debug");
+        boolean isDebug = Objects.equals(System.getProperty("env"), "debug");
         if (isDebug) {
             logger.info("Debug mode detected");
         }
@@ -86,6 +87,10 @@ public class GraphicRenderer {
             Vertex a = vertices.get(segment.getV1Idx());
             Vertex b = vertices.get(segment.getV2Idx());
 
+            // thickness
+            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+            canvas.setStroke(stroke);
+
             // set segment color to black if in debug mode
             if (isDebug) {
                 canvas.setColor(new Color(0, 0, 0));
@@ -93,9 +98,6 @@ public class GraphicRenderer {
                 canvas.setColor(extractColor(segment.getPropertiesList()));
             }
 
-            // thickness
-            Stroke stroke = new BasicStroke(extractThickness(segment.getPropertiesList()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-            canvas.setStroke(stroke);
             Line2D line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
             canvas.draw(line);
         }
