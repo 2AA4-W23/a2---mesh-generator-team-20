@@ -1,6 +1,8 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a3.island.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
@@ -11,6 +13,8 @@ import ca.mcmaster.cas.se2aa4.a3.island.river.BasicRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 import org.apache.commons.cli.Option;
 
@@ -82,19 +86,22 @@ public class Main {
             width = (Double.compare(width, v.getX()) < 0 ? v.getX() : width);
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
-        ElevationProvider elevationProvider = new MountainElevation(width, height, 1);
-        ShapeProvider shapeProvider = new CircleShape(width, height, width / 4);
+
+        ElevationProvider elevationProvider = new MountainElevation(width, height, 6000);
+        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, elevationProvider, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
         RiverProvider riverProvider = new BasicRiverProvider(segments, shapeProvider, elevationProvider, 0.3);
+        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider);
+        BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
         ColorProvider colorProvider = new NormalIslandColorProvider(
-                elevationProvider,
                 shapeProvider,
                 lakeProvider,
-                riverProvider
+                riverProvider,
+                biomeProvider
         );
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
