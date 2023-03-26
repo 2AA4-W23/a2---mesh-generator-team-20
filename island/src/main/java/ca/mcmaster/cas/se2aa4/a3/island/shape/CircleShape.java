@@ -2,7 +2,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.shape;
 
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
-public class CircleShape implements ShapeProvider {
+public class CircleShape extends ShapeProvider {
     private final double x;
     private final double y;
     private final double radius;

@@ -17,6 +17,10 @@ public class Coordinate {
         return Math.abs(x - other.x) < 0.01 && Math.abs(y - other.y) < 0.01;
     }
 
+    public double distance(Coordinate other) {
+        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
