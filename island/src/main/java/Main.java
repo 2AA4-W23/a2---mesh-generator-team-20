@@ -11,6 +11,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.BasicRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.AppleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
@@ -88,7 +89,8 @@ public class Main {
         }
 
         ElevationProvider elevationProvider = new MountainElevation(width, height, 6000);
-        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
+//        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
+        ShapeProvider shapeProvider = new AppleShape(width, height,width*0.4);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, elevationProvider, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {

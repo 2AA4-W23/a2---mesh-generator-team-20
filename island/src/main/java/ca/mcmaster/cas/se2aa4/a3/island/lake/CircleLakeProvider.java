@@ -22,7 +22,7 @@ public class CircleLakeProvider implements LakeProvider, ElevationProvider {
             double x = Math.random() * width;
             double y = Math.random() * height;
             if (shapeProvider.contains(new Coordinate(x, y))) {
-                lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 8)));
+                lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 16)));
             }
         }
     }
