@@ -1,16 +1,16 @@
 package ca.mcmaster.cas.se2aa4.a3.island.elevation;
 
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
-import ca.mcmaster.cas.se2aa4.a3.island.utils.NoiseGenerator;
+import ca.mcmaster.cas.se2aa4.a3.island.utils.PerlinNoise;
 
 public class NoiseElevationProvider implements ElevationProvider {
-    private final NoiseGenerator noiseGenerator;
+    private final PerlinNoise noiseGenerator;
     private final double amplitude;
     private final ElevationProvider elevationProvider;
 
     public NoiseElevationProvider(ElevationProvider elevationProvider, double amplitude, long seed) {
         this.elevationProvider = elevationProvider;
-        this.noiseGenerator = new NoiseGenerator(seed);
+        this.noiseGenerator = new PerlinNoise((int) seed);
         this.amplitude = amplitude;
     }
 

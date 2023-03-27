@@ -42,7 +42,7 @@ public class FlowingRiverProvider implements RiverProvider {
                 riverSources.add(riverSegment);
             }
             i++;
-            if (i > riversCount * 10) {
+            if (i > segments.size() * 10) {
                 break;
             }
         }

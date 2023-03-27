@@ -84,8 +84,8 @@ public class Main {
         ColorProvider colorProvider = ColorProviderFactory.createColorProvider(
                 width,
                 height,
-                "./fireball.png",
-                "seaDistance",
+                "perlin",
+                "mountain",
                 200,
                 4,
                 segments,
