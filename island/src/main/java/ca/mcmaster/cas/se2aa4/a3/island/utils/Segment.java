@@ -14,6 +14,20 @@ public class Segment {
         this.end = end;
     }
 
+    public boolean approxEquals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Segment rhs = (Segment) obj;
+        return start.approxEquals(rhs.start) && end.approxEquals(rhs.end) || start.approxEquals(rhs.end) && end.approxEquals(rhs.start);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

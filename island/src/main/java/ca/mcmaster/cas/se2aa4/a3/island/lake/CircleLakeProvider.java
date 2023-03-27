@@ -7,17 +7,13 @@ import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircleLakeProvider implements LakeProvider, ElevationProvider {
+public class CircleLakeProvider implements LakeProvider {
     private record Lake(Coordinate center, double radius) {
     }
 
-
-    private final ElevationProvider elevationProvider;
     private final List<Lake> lakes = new ArrayList<>();
 
-    public CircleLakeProvider(double width, double height, ElevationProvider elevationProvider, ShapeProvider shapeProvider, int lakeCount) {
-        this.elevationProvider = elevationProvider;
-
+    public CircleLakeProvider(double width, double height, ShapeProvider shapeProvider, int lakeCount) {
         while (lakes.size() < lakeCount) {
             double x = Math.random() * width;
             double y = Math.random() * height;
@@ -37,14 +33,5 @@ public class CircleLakeProvider implements LakeProvider, ElevationProvider {
             }
         }
         return false;
-    }
-
-    public double getElevation(Coordinate coordinate) {
-        double oldElevation = elevationProvider.getElevation(coordinate);
-        if (isLake(coordinate)) {
-            return oldElevation * 0.7;
-        } else {
-            return oldElevation;
-        }
     }
 }

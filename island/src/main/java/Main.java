@@ -10,8 +10,8 @@ import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevation;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.BasicRiverProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.river.FlowingRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.AppleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
@@ -89,14 +89,13 @@ public class Main {
         }
 
         ElevationProvider elevationProvider = new MountainElevation(width, height, 6000);
-//        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
-        ShapeProvider shapeProvider = new AppleShape(width, height,width*0.4);
-        LakeProvider lakeProvider = new CircleLakeProvider(width, height, elevationProvider, shapeProvider, 4);
+        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
+        LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
-        RiverProvider riverProvider = new BasicRiverProvider(segments, shapeProvider, elevationProvider, 0.3);
+        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 5, 0);
         SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider);
         BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
         ColorProvider colorProvider = new NormalIslandColorProvider(
