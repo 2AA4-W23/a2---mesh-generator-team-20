@@ -6,7 +6,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
-public class BasicBiomeProvider implements BiomeProvider {
+public class  BasicBiomeProvider implements BiomeProvider {
     private final ElevationProvider elevationProvider;
     private final SoilAbsorptionProvider soilAbsorptionProvider;
     private final ShapeProvider shapeProvider;
