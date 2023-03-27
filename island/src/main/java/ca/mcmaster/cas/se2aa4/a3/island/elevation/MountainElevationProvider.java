@@ -25,4 +25,9 @@ public class MountainElevationProvider implements ElevationProvider {
         }
         return mountainHeight * (1 - distance / radius);
     }
+
+    @Override
+    public double getMaxElevation() {
+        return mountainHeight;
+    }
 }

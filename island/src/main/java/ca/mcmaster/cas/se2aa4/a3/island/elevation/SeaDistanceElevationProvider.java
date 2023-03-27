@@ -17,4 +17,9 @@ public class SeaDistanceElevationProvider implements ElevationProvider {
         double distanceToSea = shapeProvider.nearestBorder(coordinate).distance(coordinate);
         return Math.min(Math.pow(distanceToSea, 1.8), maxHeight);
     }
+
+    @Override
+    public double getMaxElevation() {
+        return maxHeight;
+    }
 }

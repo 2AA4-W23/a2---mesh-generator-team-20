@@ -18,4 +18,9 @@ public class NoiseElevationProvider implements ElevationProvider {
     public double getElevation(Coordinate coordinate) {
         return elevationProvider.getElevation(coordinate) + (noiseGenerator.noise(coordinate.x / 3, coordinate.y / 3) * amplitude);
     }
+
+    @Override
+    public double getMaxElevation() {
+        return elevationProvider.getMaxElevation() + amplitude;
+    }
 }

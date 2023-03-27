@@ -18,4 +18,9 @@ public class FlatLandElevationProvider implements ElevationProvider {
     public double getElevation(Coordinate coordinate) {
         return Math.min(maxHeight, shapeProvider.nearestBorder(coordinate).distance(coordinate) * slope);
     }
+
+    @Override
+    public double getMaxElevation() {
+        return maxHeight;
+    }
 }

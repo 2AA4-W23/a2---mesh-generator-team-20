@@ -1,23 +1,8 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a3.island.ColorProviderFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.IslandGenerator;
-import ca.mcmaster.cas.se2aa4.a3.island.aquifer.AquiferProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.aquifer.CircleAquiferProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.color.IslandColorProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.elevation.NoiseElevationProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.elevation.SeaDistanceElevationProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.river.FlowingRiverProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.ImageShapeProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 import org.apache.commons.cli.*;
 
@@ -91,38 +76,26 @@ public class Main {
 
         long seed = new Random().nextLong();
 
-        ShapeProvider shapeProvider = new ImageShapeProvider(width, height, "./fireball.png");
-//        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
-//        ShapeProvider shapeProvider = new PerlinShape();
-//        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
-        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 100, seed);
-        LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4, seed);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
-        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 30, 0);
-        AquiferProvider aquiferProvider = new CircleAquiferProvider(width, height, shapeProvider, 4, 0);
-        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider, riverProvider);
-        BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
-        ColorProvider colorProvider = new IslandColorProvider(
-                shapeProvider,
-                lakeProvider,
-                riverProvider,
-                biomeProvider
+
+        ColorProvider colorProvider = ColorProviderFactory.createColorProvider(
+                width,
+                height,
+                "./fireball.png",
+                "seaDistance",
+                200,
+                4,
+                segments,
+                20,
+                3,
+                1,
+                new Random().nextLong(),
+                ""
         );
-//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 1) {
-//            @Override
-//            public double getPolygonValue(Coordinate coordinate) {
-//                return soilAbsorptionProvider.getAbsorptionLevel(coordinate);
-//            }
-//        };
-//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 1000) {
-//            @Override
-//            public double getPolygonValue(Coordinate coordinate) {
-//                return elevationProvider.getElevation(coordinate);
-//            }
-//        };
+
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
         mesh.writeTo(new FileOutputStream("out.mesh"));
