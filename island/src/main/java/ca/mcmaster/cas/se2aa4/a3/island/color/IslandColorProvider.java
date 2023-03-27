@@ -7,13 +7,13 @@ import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 
-public class NormalIslandColorProvider implements ColorProvider {
+public class IslandColorProvider implements ColorProvider {
     private final ShapeProvider shapeProvider;
     private final LakeProvider lakeProvider;
     private final RiverProvider riverProvider;
     private final BiomeProvider biomeProvider;
 
-    public NormalIslandColorProvider(ShapeProvider shapeProvider, LakeProvider lakeProvider, RiverProvider riverProvider, BiomeProvider biomeProvider) {
+    public IslandColorProvider(ShapeProvider shapeProvider, LakeProvider lakeProvider, RiverProvider riverProvider, BiomeProvider biomeProvider) {
         this.shapeProvider = shapeProvider;
         this.lakeProvider = lakeProvider;
         this.riverProvider = riverProvider;
