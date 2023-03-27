@@ -16,6 +16,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.river.FlowingRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.AppleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.PerlinShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
@@ -91,7 +92,8 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ShapeProvider shapeProvider = new AppleShape(width, height,width*0.4);
+//        ShapeProvider shapeProvider = new AppleShape(width, height,width*0.4);
+        ShapeProvider shapeProvider = new PerlinShape();
         ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
