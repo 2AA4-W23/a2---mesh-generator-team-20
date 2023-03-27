@@ -114,12 +114,12 @@ public class FlowingRiverProvider implements RiverProvider {
 
         // pass 2: calculate flow
         for (RiverSegment riverSource : riverSources) {
-            calculateFlow(riverSource);
+            calculateFlow(riverSource, random.nextDouble(2) + 1);
         }
     }
 
-    private void calculateFlow(RiverSegment start) {
-        start.flow += 2;
+    private void calculateFlow(RiverSegment start, double flow) {
+        start.flow += flow;
         Coordinate nextStartCoordinate = elevationProvider.getElevation(start.segment.start) > elevationProvider.getElevation(start.segment.end) ? start.segment.end : start.segment.start;
 
         for (RiverSegment riverSegment : rivers.values()) {
@@ -138,21 +138,28 @@ public class FlowingRiverProvider implements RiverProvider {
             }
 
             if (nextEndCoordinate != null) {
-                calculateFlow(riverSegment);
+                calculateFlow(riverSegment, flow);
             }
         }
     }
 
-    public int isRiver(Segment segment) {
+    public int getRiverFlow(Segment segment) {
         return (int) rivers.getOrDefault(segment, new RiverSegment(segment, 0)).flow;
     }
 
-    public double nearestRiverDistance(Coordinate coordinate) {
+    public Segment nearestRiver(Coordinate coordinate) {
         double distance = Double.POSITIVE_INFINITY;
+        Segment nearestSegment = null;
         for (Segment segment : rivers.keySet()) {
-            distance = Math.min(distance, segment.start.distance(coordinate));
-            distance = Math.min(distance, segment.end.distance(coordinate));
+            if (segment.start.distance(coordinate) < distance) {
+                distance = segment.start.distance(coordinate);
+                nearestSegment = segment;
+            }
+            if (segment.end.distance(coordinate) < distance) {
+                distance = segment.end.distance(coordinate);
+                nearestSegment = segment;
+            }
         }
-        return distance;
+        return nearestSegment;
     }
 }

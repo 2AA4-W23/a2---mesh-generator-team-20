@@ -28,6 +28,10 @@ public class Segment {
         return start.approxEquals(rhs.start) && end.approxEquals(rhs.end) || start.approxEquals(rhs.end) && end.approxEquals(rhs.start);
     }
 
+    public Coordinate center() {
+        return new Coordinate((start.x + end.x) / 2, (start.y + end.y) / 2);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

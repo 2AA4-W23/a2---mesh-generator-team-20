@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 
 public class BasicSoilAbsorptionProvider implements SoilAbsorptionProvider {
     private final ShapeProvider shapeProvider;
@@ -31,8 +32,11 @@ public class BasicSoilAbsorptionProvider implements SoilAbsorptionProvider {
             distance = coordinate.distance(nearestLake);
             absorptionLevel += 1 / ((distance + 4) * 0.3);
 
-            distance = riverProvider.nearestRiverDistance(coordinate);
-            absorptionLevel += 1 / ((distance + 4) * 0.3);
+            Segment nearestRiver = riverProvider.nearestRiver(coordinate);
+            if (nearestRiver != null) {
+                distance = riverProvider.nearestRiver(coordinate).center().distance(coordinate);
+                absorptionLevel += 1 / ((distance + 4) * 0.15 * riverProvider.getRiverFlow(nearestRiver));
+            }
 
             if (aquiferProvider.isAquifer(coordinate)) {
                 absorptionLevel += 0.5;
