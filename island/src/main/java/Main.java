@@ -86,7 +86,7 @@ public class Main {
                 height,
                 "perlin",
                 "mountain",
-                200,
+                100,
                 4,
                 segments,
                 20,
