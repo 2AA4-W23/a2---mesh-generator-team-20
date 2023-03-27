@@ -10,6 +10,7 @@ import java.util.*;
 
 public class FlowingRiverProvider implements RiverProvider {
     private final HashMap<Segment, RiverSegment> rivers = new HashMap<>();
+    private final ElevationProvider elevationProvider;
 
     private static class RiverSegment {
         Segment segment;
@@ -22,18 +23,21 @@ public class FlowingRiverProvider implements RiverProvider {
     }
 
     public FlowingRiverProvider(List<Segment> segments, ShapeProvider shapeProvider, LakeProvider lakeProvider, ElevationProvider elevationProvider, int riversCount, long seed) {
+        this.elevationProvider = elevationProvider;
+        List<RiverSegment> riverSources = new ArrayList<>();
         Queue<RiverSegment> queue = new ArrayDeque<>();
         Random random = new Random(seed);
         while (rivers.size() < riversCount) {
             Segment segment = segments.get(random.nextInt(segments.size()));
-            if (!shapeProvider.isLand(segment.start)){
+            if (!shapeProvider.isLand(segment.start) || rivers.containsKey(segment)) {
                 continue;
             }
             boolean nextToLake = lakeProvider.isLake(segment.start) && !lakeProvider.isLake(segment.end) || lakeProvider.isLake(segment.end) && !lakeProvider.isLake(segment.start);
             if (nextToLake) {
-                RiverSegment riverSegment = new RiverSegment(segment, 1);
+                RiverSegment riverSegment = new RiverSegment(segment, 0);
                 rivers.put(segment, riverSegment);
                 queue.add(riverSegment);
+                riverSources.add(riverSegment);
             }
         }
 
@@ -51,7 +55,7 @@ public class FlowingRiverProvider implements RiverProvider {
 
             // try find existing river segment
             for (RiverSegment otherRiverSegment : rivers.values()) {
-                if (otherRiverSegment.segment.approxEquals(segment)){
+                if (otherRiverSegment.segment.approxEquals(segment)) {
                     continue;
                 }
 
@@ -96,14 +100,41 @@ public class FlowingRiverProvider implements RiverProvider {
                         newSegment = potentialSegment;
                     }
                 }
-                RiverSegment newRiverSegment = new RiverSegment(newSegment, 1);
+                RiverSegment newRiverSegment = new RiverSegment(newSegment, 0);
                 rivers.put(newSegment, newRiverSegment);
                 queue.add(newRiverSegment);
             }
         }
 
         // pass 2: calculate flow
-        // TODO
+        for (RiverSegment riverSource : riverSources) {
+            calculateFlow(riverSource);
+        }
+    }
+
+    private void calculateFlow(RiverSegment start) {
+        start.flow += 2;
+        Coordinate nextStartCoordinate = elevationProvider.getElevation(start.segment.start) > elevationProvider.getElevation(start.segment.end) ? start.segment.end : start.segment.start;
+
+        for (RiverSegment riverSegment : rivers.values()) {
+            if (riverSegment == start) continue;
+            Coordinate nextEndCoordinate = null;
+            if (riverSegment.segment.start.approxEquals(nextStartCoordinate)) {
+                double elevation = elevationProvider.getElevation(riverSegment.segment.end);
+                if (elevation < elevationProvider.getElevation(nextStartCoordinate)) {
+                    nextEndCoordinate = riverSegment.segment.end;
+                }
+            } else if (riverSegment.segment.end.approxEquals(nextStartCoordinate)) {
+                double elevation = elevationProvider.getElevation(riverSegment.segment.start);
+                if (elevation < elevationProvider.getElevation(nextStartCoordinate)) {
+                    nextEndCoordinate = riverSegment.segment.start;
+                }
+            }
+
+            if (nextEndCoordinate != null) {
+                calculateFlow(riverSegment);
+            }
+        }
     }
 
     public int isRiver(Segment segment) {

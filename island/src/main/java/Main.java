@@ -98,13 +98,13 @@ public class Main {
         ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
 //        ShapeProvider shapeProvider = new PerlinShape();
 //        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
-        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 1000);
+        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 100);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
-        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 10, 0);
+        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 30, 0);
         AquiferProvider aquiferProvider = new CircleAquiferProvider(width, height, shapeProvider, 4, 0);
         SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider);
         BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
