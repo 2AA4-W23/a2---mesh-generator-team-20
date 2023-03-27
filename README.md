@@ -150,20 +150,6 @@ definition of done for your features:
 - The feature is documented
 
 ### Product Backlog
-| MVP? | Id  | Feature                                                        | Status | Started  | Delivered |
-|------|-----|----------------------------------------------------------------|--------|----------|-----------|
-| yes  | F03 | Color segments the average color of its vertices               | D      | 02/08/23 | 02/08/23  |
-| yes  | F04 | Draw segments                                                  | D      | 02/08/23 | 02/08/23  |
-|      | F05 | Create mesh ADT & Use mesh ADT in generator                    | D      | 02/10/23 | 02/10/23  |
-|      | F07 | Add thickness to segments and polygons                         | D      | 02/13/23 | 02/13/23  |
-|      | F08 | Add colors to vertices, segments and polygons                  | D      | 02/13/23 | 02/13/23  |
-|      | F09 | Add centroid to polygons                                       | D      | 02/22/23 | 02/22/23  |
-|      | F10 | Fix part 1 Debts                                               | D      | 02/22/23 | 02/22/23  |
-|      | F11 | Generate voronoi irregular mesh                                | D      | 02/22/23 | 02/22/23  |
-|      | F12 | Create CLI                                                     | D      | 02/22/23 | 02/22/23  |
-|      | F17 | Create debug visualization mode                                | D      | 02/25/23 | 02/25/23  |
-|      | F19 | Part 3 report                                                  | D      | 02/25/23 | 02/25/23  |
-|      | F21 | Add logging                                                    | D      | 02/27/23 | 02/27/23  |
-|      | F23 | Generate voronoi irregular mesh                                | D      | 02/27/23 | 02/27/23  |
 
+**See Report**
 
