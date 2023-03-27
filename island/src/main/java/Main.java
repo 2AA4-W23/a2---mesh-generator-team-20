@@ -6,22 +6,20 @@ import ca.mcmaster.cas.se2aa4.a3.island.aquifer.CircleAquiferProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.color.HeatMapColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.NoiseElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.SeaDistanceElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.FlowingRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.*;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.ImageShapeProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
-import org.apache.commons.cli.Option;
+import org.apache.commons.cli.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,8 +27,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.cli.*;
 
 public class Main {
     private static final Option INPUTMESH = new Option("i", "inputMesh", false, "");
