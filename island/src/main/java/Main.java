@@ -16,10 +16,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.FlowingRiverProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.river.RiverProvider;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.AppleShape;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.PerlinShape;
-import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.shape.*;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
@@ -95,7 +92,8 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
+        ShapeProvider shapeProvider = new ImageShapeProvider(width,height, "./australia.jpg");
+//        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
 //        ShapeProvider shapeProvider = new PerlinShape();
 //        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
         ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 100);

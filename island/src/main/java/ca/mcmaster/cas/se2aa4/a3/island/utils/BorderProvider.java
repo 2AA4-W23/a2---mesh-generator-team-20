@@ -17,6 +17,9 @@ public abstract class BorderProvider {
                     return candidate;
                 }
             }
+            if (radius > 500) {
+                return new Coordinate(0, 0);
+            }
         }
     }
 }

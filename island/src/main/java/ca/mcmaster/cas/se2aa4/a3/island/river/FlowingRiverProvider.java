@@ -24,9 +24,11 @@ public class FlowingRiverProvider implements RiverProvider {
 
     public FlowingRiverProvider(List<Segment> segments, ShapeProvider shapeProvider, LakeProvider lakeProvider, ElevationProvider elevationProvider, int riversCount, long seed) {
         this.elevationProvider = elevationProvider;
+
         List<RiverSegment> riverSources = new ArrayList<>();
         Queue<RiverSegment> queue = new ArrayDeque<>();
         Random random = new Random(seed);
+        int i = 0;
         while (rivers.size() < riversCount) {
             Segment segment = segments.get(random.nextInt(segments.size()));
             if (!shapeProvider.isLand(segment.start) || rivers.containsKey(segment)) {
@@ -38,6 +40,10 @@ public class FlowingRiverProvider implements RiverProvider {
                 rivers.put(segment, riverSegment);
                 queue.add(riverSegment);
                 riverSources.add(riverSegment);
+            }
+            i++;
+            if (i > riversCount * 10) {
+                break;
             }
         }
 
