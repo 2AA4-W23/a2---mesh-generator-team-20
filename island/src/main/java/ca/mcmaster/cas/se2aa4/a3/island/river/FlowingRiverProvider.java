@@ -26,7 +26,7 @@ public class FlowingRiverProvider implements RiverProvider {
         Random random = new Random(seed);
         while (rivers.size() < riversCount) {
             Segment segment = segments.get(random.nextInt(segments.size()));
-            if (!shapeProvider.contains(segment.start)){
+            if (!shapeProvider.isLand(segment.start)){
                 continue;
             }
             boolean nextToLake = lakeProvider.isLake(segment.start) && !lakeProvider.isLake(segment.end) || lakeProvider.isLake(segment.end) && !lakeProvider.isLake(segment.start);
@@ -44,7 +44,7 @@ public class FlowingRiverProvider implements RiverProvider {
             Segment segment = riverSegment.segment;
 
             Coordinate newSegmentStart = elevationProvider.getElevation(segment.start) > elevationProvider.getElevation(segment.end) ? segment.end : segment.start;
-            if (!shapeProvider.contains(newSegmentStart)) {
+            if (!shapeProvider.isLand(newSegmentStart)) {
                 continue;
             }
             double newSegmentStartElevation = elevationProvider.getElevation(newSegmentStart);

@@ -1,6 +1,8 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a3.island.IslandGenerator;
+import ca.mcmaster.cas.se2aa4.a3.island.aquifer.AquiferProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.aquifer.CircleAquiferProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
@@ -96,7 +98,8 @@ public class Main {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
         RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 5, 0);
-        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider);
+        AquiferProvider aquiferProvider = new CircleAquiferProvider(width, height, shapeProvider, 4, 0);
+        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider);
         BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
         ColorProvider colorProvider = new NormalIslandColorProvider(
                 shapeProvider,

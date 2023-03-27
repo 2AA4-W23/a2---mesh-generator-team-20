@@ -21,7 +21,7 @@ public class NormalIslandColorProvider implements ColorProvider {
     }
 
     public Color getPolygonColor(Coordinate coordinate) {
-        boolean isLand = shapeProvider.contains(coordinate);
+        boolean isLand = shapeProvider.isLand(coordinate);
         boolean isLake = lakeProvider.isLake(coordinate);
         if (isLand && !isLake) {
             return biomeProvider.getBiome(coordinate);

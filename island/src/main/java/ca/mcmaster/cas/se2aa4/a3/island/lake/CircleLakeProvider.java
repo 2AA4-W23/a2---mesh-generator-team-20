@@ -6,7 +6,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircleLakeProvider implements LakeProvider {
+public class CircleLakeProvider extends LakeProvider {
     private record Lake(Coordinate center, double radius) {
     }
 
@@ -16,8 +16,8 @@ public class CircleLakeProvider implements LakeProvider {
         while (lakes.size() < lakeCount) {
             double x = Math.random() * width;
             double y = Math.random() * height;
-            if (shapeProvider.contains(new Coordinate(x, y))) {
-                lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 16)));
+            if (shapeProvider.isLand(new Coordinate(x, y))) {
+                lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 8)));
             }
         }
     }

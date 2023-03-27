@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CircleAquiferProvider implements AquiferProvider {
+public class CircleAquiferProvider extends AquiferProvider {
 
     private record Aquifer(Coordinate center, double radius) {
     }
@@ -19,7 +19,7 @@ public class CircleAquiferProvider implements AquiferProvider {
         while (aquifers.size() < aquiferCount) {
             double x = random.nextDouble() * width;
             double y = random.nextDouble() * height;
-            if (shapeProvider.contains(new Coordinate(x, y))) {
+            if (shapeProvider.isLand(new Coordinate(x, y))) {
                 aquifers.add(new Aquifer(new Coordinate(x, y), random.nextDouble() * (width / 8)));
             }
         }

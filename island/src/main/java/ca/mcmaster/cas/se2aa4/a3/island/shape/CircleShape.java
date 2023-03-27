@@ -14,7 +14,7 @@ public class CircleShape extends ShapeProvider {
     }
 
     @Override
-    public boolean contains(Coordinate coordinate) {
+    public boolean isLand(Coordinate coordinate) {
         return Math.pow(coordinate.x - this.x, 2) + Math.pow(coordinate.y - this.y, 2) <= Math.pow(radius, 2);
     }
 }

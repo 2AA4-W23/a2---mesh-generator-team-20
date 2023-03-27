@@ -14,7 +14,7 @@ public class BasicRiverProvider implements RiverProvider {
 
     public BasicRiverProvider(List<Segment> segments, ShapeProvider shapeProvider, ElevationProvider elevationProvider, double density) {
         for (Segment segment : segments) {
-            boolean nextToSea = shapeProvider.contains(segment.start) && !shapeProvider.contains(segment.end) || shapeProvider.contains(segment.end) && !shapeProvider.contains(segment.start);
+            boolean nextToSea = shapeProvider.isLand(segment.start) && !shapeProvider.isLand(segment.end) || shapeProvider.isLand(segment.end) && !shapeProvider.isLand(segment.start);
             if (nextToSea && Math.random() < density) {
                 rivers.put(segment, 4.0);
             }
@@ -28,9 +28,9 @@ public class BasicRiverProvider implements RiverProvider {
                 boolean endConnected = false;
                 for (Segment otherSegment : riverSegments) {
                     if (otherSegment != riverSegment) {
-                        if (!shapeProvider.contains(riverSegment.start) || riverSegment.start.equals(otherSegment.start) || riverSegment.start.equals(otherSegment.end)) {
+                        if (!shapeProvider.isLand(riverSegment.start) || riverSegment.start.equals(otherSegment.start) || riverSegment.start.equals(otherSegment.end)) {
                             startConnected = true;
-                        } else if (!shapeProvider.contains(riverSegment.end) || riverSegment.end.equals(otherSegment.start) || riverSegment.end.equals(otherSegment.end)) {
+                        } else if (!shapeProvider.isLand(riverSegment.end) || riverSegment.end.equals(otherSegment.start) || riverSegment.end.equals(otherSegment.end)) {
                             endConnected = true;
                         }
                     }
