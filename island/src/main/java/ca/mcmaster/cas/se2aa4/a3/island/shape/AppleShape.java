@@ -12,7 +12,7 @@ public class AppleShape extends ShapeProvider{
         this.y = height / 2;
         this.radius = radius;
     }
-    public boolean contains(Coordinate coordinate) {
+    public boolean isLand(Coordinate coordinate) {
         double originX = coordinate.x-this.x;
         double originY = coordinate.y-this.y;
 

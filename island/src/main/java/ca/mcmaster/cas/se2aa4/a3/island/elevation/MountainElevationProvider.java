@@ -2,13 +2,13 @@ package ca.mcmaster.cas.se2aa4.a3.island.elevation;
 
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
-public class MountainElevation implements ElevationProvider {
+public class MountainElevationProvider implements ElevationProvider {
     private final double centerX;
     private final double centerY;
     private final double radius;
     private final double mountainHeight;
 
-    public MountainElevation(double width, double height, double radius, double mountainHeight) {
+    public MountainElevationProvider(double width, double height, double radius, double mountainHeight) {
         this.centerX = width / 2;
         this.centerY = height / 2;
         this.radius = radius;
