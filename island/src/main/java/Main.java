@@ -6,9 +6,11 @@ import ca.mcmaster.cas.se2aa4.a3.island.aquifer.CircleAquiferProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.color.HeatMapColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevationProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.elevation.NoiseElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.SeaDistanceElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.CircleLakeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.lake.LakeProvider;
@@ -20,6 +22,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.shape.PerlinShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 import org.apache.commons.cli.Option;
 
@@ -92,9 +95,10 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-//        ShapeProvider shapeProvider = new AppleShape(width, height,width*0.4);
-        ShapeProvider shapeProvider = new PerlinShape();
-        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
+        ShapeProvider shapeProvider = new AppleShape(width, height, width * 0.4);
+//        ShapeProvider shapeProvider = new PerlinShape();
+//        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
+        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 1000);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
@@ -116,7 +120,7 @@ public class Main {
 //                return soilAbsorptionProvider.getAbsorptionLevel(coordinate);
 //            }
 //        };
-//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 60) {
+//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 1000) {
 //            @Override
 //            public double getPolygonValue(Coordinate coordinate) {
 //                return elevationProvider.getElevation(coordinate);
