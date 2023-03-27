@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a3.island.lake;
 
-import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
@@ -25,10 +24,7 @@ public class CircleLakeProvider implements LakeProvider {
 
     public boolean isLake(Coordinate coordinate) {
         for (Lake lake : lakes) {
-            double dx = coordinate.x - lake.center.x;
-            double dy = coordinate.y - lake.center.y;
-            double distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < lake.radius) {
+            if (coordinate.distance(lake.center) < lake.radius) {
                 return true;
             }
         }
