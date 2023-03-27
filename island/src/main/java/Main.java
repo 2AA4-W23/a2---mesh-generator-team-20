@@ -84,7 +84,7 @@ public class Main {
         ColorProvider colorProvider = ColorProviderFactory.createColorProvider(
                 width,
                 height,
-                "perlin",
+                "circle",
                 "mountain",
                 100,
                 4,
@@ -93,7 +93,7 @@ public class Main {
                 3,
                 1,
                 new Random().nextLong(),
-                ""
+                "humidity"
         );
 
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);

@@ -20,7 +20,7 @@ abstract public class HeatMapColorProvider implements ColorProvider {
     }
 
     public HeatMapColorProvider(ShapeProvider shapeProvider, double minValue, double maxValue) {
-        this(shapeProvider, minValue, maxValue, new Color(255), new Color(0));
+        this(shapeProvider, minValue, maxValue, new Color(255), new Color(0, 0, 255));
     }
 
     abstract public double getPolygonValue(Coordinate coordinate);

@@ -13,6 +13,6 @@ public class MultipliedSoilAbsorptionProvider implements SoilAbsorptionProvider 
 
     @Override
     public double getAbsorptionLevel(Coordinate coordinate) {
-        return soilAbsorptionProvider.getAbsorptionLevel(coordinate) * multiplier;
+        return Math.min(1, soilAbsorptionProvider.getAbsorptionLevel(coordinate) * multiplier);
     }
 }

@@ -56,6 +56,33 @@ mosser@azrael generator % java -jar generator.jar sample.mesh -t 500 500 50 1 1
 mosser@azrael generator % java -jar generator.jar sample.mesh -i 500 500 100 1 1 10
 ```
 
+### Island
+
+To generate an island based on generated mesh, go the `island` directory, and use `java -jar` to run the product. The product take the following arguments:
+
+- **input** (positional): input mesh file path
+- **output** (positional): output mesh file path
+- **shape**: (default to `apple`)
+  - `apple`: apple shape
+  - `circle`: circle shape
+  - `perlin`: shape based on perlin noise
+  - `<image file path>`: shape based on the image, the black pixels will be the sea
+- **elevation**: (default to `seaDistance`)
+  - `flatland`: flatland terrain with maximum elevation of 1000
+  - `mountain`: mountain terrain with maximum elevation of 6000
+  - `seaDistance`: the terrain goes higher as the distance to the sea increases
+- **elevationNoise**: amount of random noise added to the elevation (default to 100)
+- **maxLakes**: maximum amount of lakes (default to 4)
+- **maxRivers**: maximum amount of rivers (default to 20)
+- **maxAquifers**: maximum amount of aquifers (default to 4)
+- **soilAbsorptionFactor**: adjust how much water is absorbed by the soil (default to 1.0)
+- **seed**: number used to generate the random terrain (random if not specified)
+- **heatmap**: specify if you want to generate a heatmap (smaller values are represented using white, large values are blue) (default to none)
+  - `humidity`: heatmap based on humidity
+  - `elevation`: heatmap based on elevation
+
+For examples, see **Gallery** section.
+
 ### Visualizer
 
 To visualize an existing mesh, go the `visualizer` directory, and use `java -jar` to run the product. The product take
@@ -81,6 +108,32 @@ To visualize the SVG file:
 
 - Open it with a web browser
 - Convert it into something else with tools like `rsvg-convert`
+
+## Gallery
+
+```bash
+java -jar island.jar ../generator/sample.mesh out.mesh --shape "fireball.png"
+```
+
+![](island/samples/a.svg)
+
+```bash
+java -jar island.jar ../generator/sample.mesh out.mesh --shape "apple"
+```
+
+![](island/samples/b.svg)
+
+```bash
+java -jar island.jar ../generator/sample.mesh out.mesh --shape "perlin" --elevation "mountain"
+```
+
+![](island/samples/c.svg)
+
+```bash
+java -jar island.jar ../generator/sample.mesh out.mesh --shape "circle" --elevation "mountain" --heatmap "humidity"
+```
+
+![](island/samples/d.svg)
 
 ## How to contribute to the project
 
