@@ -14,14 +14,8 @@ public class NoiseElevationProvider implements ElevationProvider {
         this.amplitude = amplitude;
     }
 
-    public NoiseElevationProvider(ElevationProvider elevationProvider, double amplitude) {
-        this.elevationProvider = elevationProvider;
-        this.noiseGenerator = new NoiseGenerator();
-        this.amplitude = amplitude;
-    }
-
     @Override
     public double getElevation(Coordinate coordinate) {
-        return elevationProvider.getElevation(coordinate) + (noiseGenerator.noise(coordinate.x/3, coordinate.y/3) * amplitude);
+        return elevationProvider.getElevation(coordinate) + (noiseGenerator.noise(coordinate.x / 3, coordinate.y / 3) * amplitude);
     }
 }

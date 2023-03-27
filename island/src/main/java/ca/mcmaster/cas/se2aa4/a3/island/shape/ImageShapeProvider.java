@@ -12,7 +12,6 @@ public class ImageShapeProvider extends ShapeProvider {
     private final double scale;
     private final BufferedImage image;
     private final HashMap<Coordinate, Boolean> cache = new HashMap<>();
-    private int count = 0;
 
     public ImageShapeProvider(double width, double height, String filePath) throws IOException {
         File file = new File(filePath);
@@ -22,10 +21,6 @@ public class ImageShapeProvider extends ShapeProvider {
 
     @Override
     public boolean isLand(Coordinate coordinate) {
-        count++;
-        if (count % 500 == 0) {
-            System.out.println("count: " + count);
-        }
         coordinate = new Coordinate((int) (coordinate.x / scale), (int) (coordinate.y / scale));
         if (cache.containsKey(coordinate)) {
             return cache.get(coordinate);

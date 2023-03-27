@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.cli.*;
 
@@ -92,12 +93,14 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ShapeProvider shapeProvider = new ImageShapeProvider(width,height, "./fireball.png");
+        long seed = new Random().nextLong();
+
+        ShapeProvider shapeProvider = new ImageShapeProvider(width, height, "./fireball.png");
 //        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
 //        ShapeProvider shapeProvider = new PerlinShape();
 //        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
-        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 100);
-        LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
+        ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 100, seed);
+        LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4, seed);
         List<Segment> segments = new ArrayList<>();
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));

@@ -13,10 +13,6 @@ public class PerlinShape extends ShapeProvider {
         this.noiseGenerator = new NoiseGenerator(seed);
     }
 
-    public PerlinShape() {
-        this.noiseGenerator = new NoiseGenerator();
-    }
-
     @Override
     public boolean isLand(Coordinate coordinate) {
         if (cache.containsKey(coordinate)) {

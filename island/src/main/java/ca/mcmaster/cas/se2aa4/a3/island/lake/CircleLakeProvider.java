@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CircleLakeProvider extends LakeProvider {
     private record Lake(Coordinate center, double radius) {
@@ -12,11 +13,12 @@ public class CircleLakeProvider extends LakeProvider {
 
     private final List<Lake> lakes = new ArrayList<>();
 
-    public CircleLakeProvider(double width, double height, ShapeProvider shapeProvider, int lakeCount) {
+    public CircleLakeProvider(double width, double height, ShapeProvider shapeProvider, int lakeCount, long seed) {
+        Random random = new Random(seed);
         int i = 0;
         while (lakes.size() < lakeCount) {
-            Coordinate center = new Coordinate(Math.random() * width, Math.random() * height);
-            double radius = Math.random() * (width / 8);
+            Coordinate center = new Coordinate(random.nextDouble() * width, random.nextDouble() * height);
+            double radius = random.nextDouble() * (width / 8);
             if (shapeProvider.isLand(center) && radius > 10 && shapeProvider.nearestBorder(center).distance(center) > (radius + 50)) {
                 lakes.add(new Lake(center, radius));
             }
