@@ -14,10 +14,10 @@ public class CircleLakeProvider extends LakeProvider {
 
     public CircleLakeProvider(double width, double height, ShapeProvider shapeProvider, int lakeCount) {
         while (lakes.size() < lakeCount) {
-            double x = Math.random() * width;
-            double y = Math.random() * height;
-            if (shapeProvider.isLand(new Coordinate(x, y))) {
-                lakes.add(new Lake(new Coordinate(x, y), Math.random() * (width / 8)));
+            Coordinate center = new Coordinate(Math.random() * width, Math.random() * height);
+            double radius = Math.random() * (width / 8);
+            if (shapeProvider.isLand(center) && radius > 50 && shapeProvider.nearestBorder(center).distance(center) > (radius + 50)) {
+                lakes.add(new Lake(center, radius));
             }
         }
     }

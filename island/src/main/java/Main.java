@@ -95,7 +95,7 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ShapeProvider shapeProvider = new AppleShape(width, height, width * 0.4);
+        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
 //        ShapeProvider shapeProvider = new PerlinShape();
 //        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
         ElevationProvider elevationProvider = new NoiseElevationProvider(new SeaDistanceElevationProvider(shapeProvider, 6000), 1000);
@@ -104,7 +104,7 @@ public class Main {
         for (Structs.Segment s : mesh.getSegmentsList()) {
             segments.add(Segment.fromSegment(s, mesh.getVerticesList()));
         }
-        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 5, 0);
+        RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 10, 0);
         AquiferProvider aquiferProvider = new CircleAquiferProvider(width, height, shapeProvider, 4, 0);
         SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider);
         BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
