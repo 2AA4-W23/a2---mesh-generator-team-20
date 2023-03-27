@@ -32,7 +32,5 @@ public class Main {
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
         dumper.dump(aMesh);
-
-        System.exit(0);
     }
 }
