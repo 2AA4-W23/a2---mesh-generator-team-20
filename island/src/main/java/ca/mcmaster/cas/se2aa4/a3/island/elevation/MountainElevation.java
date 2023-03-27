@@ -8,10 +8,10 @@ public class MountainElevation implements ElevationProvider {
     private final double radius;
     private final double mountainHeight;
 
-    public MountainElevation(double width, double height, double mountainHeight) {
+    public MountainElevation(double width, double height, double radius, double mountainHeight) {
         this.centerX = width / 2;
         this.centerY = height / 2;
-        this.radius = width / 3 * 2;
+        this.radius = radius;
         this.mountainHeight = mountainHeight;
     }
 
@@ -19,6 +19,9 @@ public class MountainElevation implements ElevationProvider {
         double distance = Math.sqrt(Math.pow(coordinate.x - centerX, 2) + Math.pow(coordinate.y - centerY, 2));
         if (distance > radius) {
             return 0;
+        }
+        if (radius - distance < 50) {
+            return (radius - distance) / 4;
         }
         return mountainHeight * (1 - distance / radius);
     }

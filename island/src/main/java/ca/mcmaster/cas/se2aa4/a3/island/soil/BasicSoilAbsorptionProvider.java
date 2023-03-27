@@ -22,10 +22,19 @@ public class BasicSoilAbsorptionProvider implements SoilAbsorptionProvider {
 
             Coordinate nearestSea = shapeProvider.nearestBorder(coordinate);
             double distance = coordinate.distance(nearestSea);
-            absorptionLevel += 1 / (distance + 5);
+            absorptionLevel += 1 / ((distance + 4) * 0.3);
 
             Coordinate nearestLake = lakeProvider.nearestBorder(coordinate);
+            distance = coordinate.distance(nearestLake);
+            absorptionLevel += 1 / ((distance + 4) * 0.3);
 
+            if (aquiferProvider.isAquifer(coordinate)) {
+                absorptionLevel += 0.5;
+            } else {
+                Coordinate nearestAquifer = aquiferProvider.nearestBorder(coordinate);
+                distance = coordinate.distance(nearestAquifer);
+                absorptionLevel += 1 / ((distance + 4) * 0.1);
+            }
 
             return Math.min(1, absorptionLevel);
         } else {

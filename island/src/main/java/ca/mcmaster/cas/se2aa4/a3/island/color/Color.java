@@ -36,4 +36,12 @@ public class Color {
     public Structs.Property toProperty() {
         return Structs.Property.newBuilder().setKey("rgb_color").setValue(toString()).build();
     }
+
+    public static Color interpolate(Color a, Color b, double ratio) {
+        int red = (int) (a.red + (b.red - a.red) * ratio);
+        int green = (int) (a.green + (b.green - a.green) * ratio);
+        int blue = (int) (a.blue + (b.blue - a.blue) * ratio);
+        int alpha = (int) (a.alpha + (b.alpha - a.alpha) * ratio);
+        return new Color(red, green, blue, alpha);
+    }
 }

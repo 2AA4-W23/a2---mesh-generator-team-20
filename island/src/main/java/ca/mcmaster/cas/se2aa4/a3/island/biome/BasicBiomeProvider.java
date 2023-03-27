@@ -28,7 +28,7 @@ public class BasicBiomeProvider implements BiomeProvider {
             return new Color(230, 230, 230);
         }
 
-        if (distanceToSea < 30) {
+        if (distanceToSea < 30 && elevation < 15) {
             return new Color(239, 247, 126);
         }
 

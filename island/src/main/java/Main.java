@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.aquifer.CircleAquiferProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BasicBiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.biome.BiomeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.ColorProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.color.HeatMapColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.color.NormalIslandColorProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.ElevationProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.elevation.MountainElevation;
@@ -18,6 +19,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.shape.CircleShape;
 import ca.mcmaster.cas.se2aa4.a3.island.shape.ShapeProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.BasicSoilAbsorptionProvider;
 import ca.mcmaster.cas.se2aa4.a3.island.soil.SoilAbsorptionProvider;
+import ca.mcmaster.cas.se2aa4.a3.island.utils.Coordinate;
 import ca.mcmaster.cas.se2aa4.a3.island.utils.Segment;
 import org.apache.commons.cli.Option;
 
@@ -90,7 +92,7 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ElevationProvider elevationProvider = new MountainElevation(width, height, 6000);
+        ElevationProvider elevationProvider = new MountainElevation(width, height, width * 0.4, 6000);
         ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
         LakeProvider lakeProvider = new CircleLakeProvider(width, height, shapeProvider, 4);
         List<Segment> segments = new ArrayList<>();
@@ -107,6 +109,18 @@ public class Main {
                 riverProvider,
                 biomeProvider
         );
+//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 1) {
+//            @Override
+//            public double getPolygonValue(Coordinate coordinate) {
+//                return soilAbsorptionProvider.getAbsorptionLevel(coordinate);
+//            }
+//        };
+//        ColorProvider colorProvider = new HeatMapColorProvider(shapeProvider, 0, 60) {
+//            @Override
+//            public double getPolygonValue(Coordinate coordinate) {
+//                return elevationProvider.getElevation(coordinate);
+//            }
+//        };
         IslandGenerator islandGenerator = new IslandGenerator(colorProvider);
         mesh = islandGenerator.generate(mesh);
         mesh.writeTo(new FileOutputStream("out.mesh"));
