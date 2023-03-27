@@ -1,8 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a3.island.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CoordinateTest {
     @Test
