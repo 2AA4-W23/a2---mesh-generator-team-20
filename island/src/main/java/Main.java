@@ -92,7 +92,7 @@ public class Main {
             height = (Double.compare(height, v.getY()) < 0 ? v.getY() : height);
         }
 
-        ShapeProvider shapeProvider = new ImageShapeProvider(width,height, "./australia.jpg");
+        ShapeProvider shapeProvider = new ImageShapeProvider(width,height, "./fireball.png");
 //        ShapeProvider shapeProvider = new CircleShape(width, height, width * 0.4);
 //        ShapeProvider shapeProvider = new PerlinShape();
 //        ElevationProvider elevationProvider = new SeaDistanceElevationProvider(shapeProvider, 6000);
