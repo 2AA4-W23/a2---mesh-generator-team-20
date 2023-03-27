@@ -140,4 +140,13 @@ public class FlowingRiverProvider implements RiverProvider {
     public int isRiver(Segment segment) {
         return (int) rivers.getOrDefault(segment, new RiverSegment(segment, 0)).flow;
     }
+
+    public double nearestRiverDistance(Coordinate coordinate) {
+        double distance = Double.POSITIVE_INFINITY;
+        for (Segment segment : rivers.keySet()) {
+            distance = Math.min(distance, segment.start.distance(coordinate));
+            distance = Math.min(distance, segment.end.distance(coordinate));
+        }
+        return distance;
+    }
 }

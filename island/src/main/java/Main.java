@@ -106,7 +106,7 @@ public class Main {
         }
         RiverProvider riverProvider = new FlowingRiverProvider(segments, shapeProvider, lakeProvider, elevationProvider, 30, 0);
         AquiferProvider aquiferProvider = new CircleAquiferProvider(width, height, shapeProvider, 4, 0);
-        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider);
+        SoilAbsorptionProvider soilAbsorptionProvider = new BasicSoilAbsorptionProvider(shapeProvider, lakeProvider, aquiferProvider, riverProvider);
         BiomeProvider biomeProvider = new BasicBiomeProvider(elevationProvider, soilAbsorptionProvider, shapeProvider);
         ColorProvider colorProvider = new NormalIslandColorProvider(
                 shapeProvider,

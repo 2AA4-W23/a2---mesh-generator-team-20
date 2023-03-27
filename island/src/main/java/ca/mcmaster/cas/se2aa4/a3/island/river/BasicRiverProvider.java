@@ -64,4 +64,13 @@ public class BasicRiverProvider implements RiverProvider {
     public int isRiver(Segment segment) {
         return (int) (double) rivers.getOrDefault(segment, 0.0);
     }
+
+    public double nearestRiverDistance(Coordinate coordinate) {
+        double distance = Double.POSITIVE_INFINITY;
+        for (Segment segment : rivers.keySet()) {
+            distance = Math.min(distance, segment.start.distance(coordinate));
+            distance = Math.min(distance, segment.end.distance(coordinate));
+        }
+        return distance;
+    }
 }
